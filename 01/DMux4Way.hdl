@@ -1,4 +1,23 @@
-// This file is part of www.nand2tetris.org
+CHIP DMux4Way {
+    IN in, sel[2];
+    OUT a, b, c, d;
+
+    PARTS:
+    DMux(in=in, sel=sel[0], a=ac, b=bd);
+    DMux(in=ac, sel=sel[1], a=a, b=c);
+    DMux(in=bd, sel=sel[1], a=b, b=d);
+}
+
+//   Mux(a=in, b=false, sel=sel[0], out=x);
+  //  Mux(a=false, b=in, sel=sel[0], out=y);
+    /*DMux(in=in, sel=sel[0], a=x, b=y);
+    Not(in=sel[1], out=notSel);
+    And(a=x, b=notSel, out=a);
+    And(a=y, b=notSel, out=b);
+    And(a=x, b=sel[1], out=c);
+    And(a=y, b=sel[1], out=d); */
+
+    // This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
 // File name: projects/01/DMux4Way.hdl
@@ -10,18 +29,3 @@
  *                {0, 0, in, 0} if sel == 10
  *                {0, 0, 0, in} if sel == 11
  */
-
-CHIP DMux4Way {
-    IN in, sel[2];
-    OUT a, b, c, d;
-
-    PARTS:
- //   Mux(a=in, b=false, sel=sel[0], out=x);
-  //  Mux(a=false, b=in, sel=sel[0], out=y);
-    DMux(in=in, sel=sel[0], a=x, b=y);
-    Not(in=sel[1], out=notSel);
-    And(a=x, b=notSel, out=a);
-    And(a=y, b=notSel, out=b);
-    And(a=x, b=sel[1], out=c);
-    And(a=y, b=sel[1], out=d);
-}
