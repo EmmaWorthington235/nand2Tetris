@@ -7,20 +7,21 @@ M=D
 (Skip)
 @KBD
 D=M
-@R0
-A=D
 
-@White
+@Color
 D;JEQ
-@Black
-0;JMP
+D=-1
 
-(Check)
+(Color)
+@address
+A=M
+M=D
+
 @address
 D=M
+
 @KBD
 D=A-D
-
 @Loop
 D;JEQ
 
@@ -28,18 +29,4 @@ D;JEQ
 M=M+1
 
 @Skip
-0;JMP
-
-(White)
-@address
-A=M
-M=0
-@Check
-0;JMP
-
-(Black)
-@address
-A=M
-M=-1
-@Check
 0;JMP
