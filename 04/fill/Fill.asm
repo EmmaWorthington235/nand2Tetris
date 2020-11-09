@@ -1,32 +1,33 @@
-(Loop)
+(Loop) //resets once it gets to last pixel back to start of screen
 @SCREEN //screen val
 D=A
 @address //address changing
 M=D
 
-(Skip)
-@KBD
+(Skip) //start of loop
+@KBD //kbd input
 D=M
 
-@Color
-D;JEQ
-D=-1
+@Color //skips next step if white
+D;JEQ 
+D=-1 //if black
 
 (Color)
-@address
-A=M
-M=D
+@address 
+A=M //temporarily sets address to the memorry stored in address which is the incromented spot
+M=D //memory at the temporary address is d
 
-@address
+@address //*to check if finished fling in screen
 D=M
 
 @KBD
 D=A-D
-@Loop
-D;JEQ
 
-@address
+@Loop
+D;JEQ //*
+
+@address //inc spot
 M=M+1
 
-@Skip
+@Skip //back to start of inner loop
 0;JMP
