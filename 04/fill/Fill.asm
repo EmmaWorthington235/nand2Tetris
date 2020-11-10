@@ -1,3 +1,4 @@
+//working fill
 (Loop) //resets once it gets to last pixel back to start of screen
 @SCREEN //screen val
 D=A
