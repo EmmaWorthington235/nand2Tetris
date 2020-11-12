@@ -1,6 +1,6 @@
-//WORKING RIGHT IMPROVED
+//WORKING LEFT RIGHT
+//time errors and ball problmes
 //extra time problem
-//Left broke
 //Ball freezes
 (Start) //start of program
 @KBD //gets value of one past last pixel
@@ -81,6 +81,13 @@ D;JEQ //jmps to left function if =0
 D=D-A //now a total of 132 has been subtracted from kbd impt
 @Right //if kbd - right ascii value = 0 jmp to right funct
 D;JEQ
+@TimeDelayExtra
+0;JMP
+(OutTimeDelayEx)
+@ex2
+D=M
+@OutEx2
+D;JNE
 @TimeDelay //leaves this loop, next thing it needs to do is delay time so goes there
 0;JMP
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +107,14 @@ D=A-D //last pixel-(loc+31)
 D;JNE //if not at left of screen
 @R14 //r14 is used to mark start of the paddle
 M=M+1 // so if at left of screan adds one to cancel out subtracting 1
-@NewPaddle //repeats w same start value
+@ex2
+M=-1
+@TimeDelayExtra
+0;JMP
+(OutEx2)
+@ex2
+M=0
+@OutSpmL //repeats w same start value
 0;JMP
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -112,12 +126,12 @@ M=1
 M=M+1 //adds one frtoom r14 so that paddle starts one to the right
 D=M //saves loc of start
 @KBD //last pixel
-D=A-D //loc of start-last pixel
+D=A-D//loc of start-last pixel
 @NewPaddle//creates new paddle w updated mem if not at last spot
-D;JNE //bc d = last pixel-updated spot
+D;JNE //ment to be JNE//bc d = last pixel-updated spot //JGE JLE
 @R14 //r14 is start of the paddle
 M=M-1  //subtracts one to cancel out adding one if it is at the end
-@NewPaddle //creates new paddle with same start addy
+@OutSpmL//NewPaddle //creates new paddle with same start addy
 0;JMP
 
 (End) //end loop incase i need it
@@ -141,7 +155,7 @@ D;JEQ
 0;JMP
 
 (TimeDelaySPM) //time delay
-@10000 //starts at 10000 than j subtracts down to 0
+@1000 //starts at 10000 than j subtracts down to 0
 D=A
 (TloopSPM)
 D=D-1
@@ -151,13 +165,23 @@ D;JEQ
 0;JMP
 
 (TimeDelaySPM3) //time delay
-@10000 //starts at 10000 than j subtracts down to 0
+@1000 //starts at 10000 than j subtracts down to 0
 D=A
 (TloopSPM3)
 D=D-1
 @OutTimeDelaySPM3 //where it exits
 D;JEQ
 @TloopSPM3 //repeats inner loop that j subtracts each time till d = 0
+0;JMP
+
+(TimeDelayExtra) //time delay
+@16000 //starts at 10000 than j subtracts down to 0
+D=A
+(TloopEx)
+D=D-1
+@OutTimeDelayEx //where it exits
+D;JEQ
+@TloopEx //repeats inner loop that j subtracts each time till d = 0
 0;JMP
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -369,52 +393,6 @@ M=0
 @OutSpmL//where spm exits too
 0;JMP
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-(GetBin)
-@spmCounter
-D=M
-D=D-1
-@bin
-M=1
-@OutBin
-D;JEQ
-
-@bin
-M=M+1
-M=M+1
-D=D-1
-@OutBin
-D;JEQ
-
-@bin
-M=M-1 //sets bin mem to 2
-@spmCounter //should be using counter val here
-D=M
-@binCounter
-M=D
-
-(Times2Loop)
-@bin
-D=M
-M=M+D
-
-@binCounter
-M=M-1
-D=M
-
-@Times2Loop
-D;JNE
-
-@bin
-M=M-1
-D=M
-@SCREEN
-M=D
-
-@OutBin
-0;JMP
-///// out is called OutBin
 
 ///    ///    ///    ///    ///    ///    ///    ///    ///    ///    ///
 
