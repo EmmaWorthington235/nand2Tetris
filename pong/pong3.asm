@@ -134,11 +134,9 @@ D=A-D //one past last pixel-(loc+31)
 @NewPaddle //creates new paddle with new start value if not at the edge ot the screen
 D;JNE //D is = too : one past the last pixel - (new paddle spot + 31)
 
-//fixing variables
+//extra time delay
 @R14 //r14 is used to mark start of the paddle
 M=M+1 // so if at left of screan adds one to cancel out subtracting 1
-
-//calls a time delay and returns here
 @ex2 //Time delay extra called two diff times ex2 checks which it needs to be sent to
 M=-1 //if ex2 = -1 then returns to here
 @TimeDelayExtra
@@ -146,7 +144,6 @@ M=-1 //if ex2 = -1 then returns to here
 (OutEx2) //out time delay
 @ex2
 M=0 //sets ex2 back to 0
-
 @OutSpm //goes to out spm (creates new paddle but skip possibilty of smoother paddle movement so that doesnt create problems when at edge)
 0;JMP
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,14 +162,6 @@ D=M //saves loc of start
 D=A-D//loc of start-last pixel
 @NewPaddle//creates new paddle w updated mem if not at last spot
 D;JNE //ment to be JNE//bc d = last pixel-updated spot //JGE JLE
-
-//time delay
-@16000 //to compinsate for diffrent time if hitting the rigth side and not moving bit by bit
-D=A
-(Rloop)
-D=D-1
-@Rloop
-D;JNE
 
 //if at last spot fix start of padd;e
 @R14 //r14 is start of the paddle
@@ -421,12 +410,29 @@ D;JNE
 //set counter
 @spmCounter2 //counter from outer function (spmCounter2=n)
 D=M
-@binCounter2 //creats a temp counter from n+1 (so that gets to every number bc norm 1 less)
-M=D+1
+D=D-1 //gets counter and subtracts 1
 
 //if n = 1 2^n-1 = 1
 @bin2 //sets 2^n-1 function = 1 
 M=1
+@OutBin2 //if n = 1 return 1
+D;JEQ
+
+//if n = 2 2^n-1 = 3
+@bin2 //same as what just happend but if counter = 2 return 3
+M=M+1 //easier to return the first two spots the way i wrote my code
+M=M+1
+D=D-1
+@OutBin2
+D;JEQ
+
+//sets counters and variables
+@bin2
+M=M-1 //sets bin2 mem to 2 (starts at 2)
+@spmCounter2 
+D=M
+@binCounter2 //creats a temp counter from n
+M=D
 
 (Times2Loop2) //inner loop (adds variable to itself n times)
 //adds variable to itself
@@ -457,12 +463,28 @@ M=M-1 //sends back 2^n-1 (m is 2^n so subtracts 1)
 @spmCounter3 //gets outter loop counter
 D=M
 D=D-1
-@binCounter3 //temp counter (is plus one so that gets all the numbers)
-M=D+1
 
 //returns 1 if n = 1
 @bin3
 M=1
+@OutBin3
+D;JEQ
+
+// returns 3 if n = 2
+@bin3
+M=M+1
+M=M+1
+D=D-1
+@OutBin3
+D;JEQ
+
+//sets up variables
+@bin3 //sets bin 3 = to 2
+M=M-1
+@spmCounter3 
+D=M
+@binCounter3 //temp counter
+M=D
 
 (Times2Loop3) //inner loop
 //adds variable to itself
@@ -487,6 +509,7 @@ M=M-1 //subtracts one so that returns 2^n-1
 @OutBin3 //returns to bit by bit function
 0;JMP
 
+//EVERYTHING BELLOW IS THE BALL
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 (CreateBall) //creates new ball
 //sets variables
@@ -500,11 +523,13 @@ M=0 //sets to down to start
 D=A
 @15
 D=D+A
+@topBall //stores top row of ball
+M=D
 @ball
 M=D //start of ball counter is the start bus +15
 
 //sets up a counter to count to make the six lines of ball
-@6 //ball counter = 6 (so that ball is 6 pixels tall)
+@5 //ball counter = 6 (so that ball is 6 pixels tall)
 D=A
 @ballCounter 
 M=D
@@ -539,48 +564,71 @@ D=M
 @CheckKBD //deosnt move if the down key hasnt been pressed yet
 D;JEQ
 
-//goes to up if moving up
-@upDown //stores if going up or down
-D=M
-@Up //goes to up function if is moving up other wise continues through move ball function
-D;JNE // if up down = 0 continues in this function and moves ball down
-
 //sets new row to 2016 (middle 6 black)
 @2016 //middle 6 pixels
 D=A
 @ball //sets current row = to 2016
+//M=M+D
+A=M
+M=D
+@topBall
 A=M
 M=D
 
-//creates new start for the ball
 @32
+D=A
+@ball
+A=M+D
+M=0
+@topBall
+A=M-D
+M=0
+
+@upDown
+D=M
+@GoUp
+D;JNE
+//creates new start for the ball
+(GoDown)
+@32 // is 64 bc is 32 but will automaticaly go into next method so neccisary to cancel
 D=A //d=32
 @ball
 M=M+D //updates address to b one bellow
+@topBall
+M=M+D //updates address to b one bellow
+@After
+0;JMP
 
-//erases the top of the ball
-@224 //32*7 --> goes back 7 rows, size of ball +1(plus one bc already update addy to b one down), to delete line
-D=A
+(GoUp)
+@32
+D=A //d=32
 @ball
-A=M-D
-M=0 //erases top row of ball
+M=M-D //updates address to b one bellow
+@topBall
+M=M-D //updates address to b one bellow
 
-//goes to set up if needs to by checking if next place ball is going = something other than 0
-@ball
-A=M //sets ball address = to the memoru
-D=M //stores spot in d temporarily
-@SetUp
-D;JNE //goes to set up if next spot != 0 (means taht it has hit the paddle)
-
+(After)
+//updates ball address
 //checks if lost game
 @KBD
 D=A
 @ball
 D=D-M //D is the diffrence of the end of the screen and the current address
-@96
+@128
 D=D-A //if d < 0 then in the bottom 3 rows of the screen and it didnt hit the paddle so go to end
+@NotEnd
+D;JGT
+
+@ball
+A=M
+D=M
+
 @End
-D;JLT
+D;JNE
+
+@SetUp
+0;JMP
+(NotEnd)
 
 @CheckKBD
 0;JMP //goes to keyboard if isnt at bottom of board or hit the paddle
@@ -589,71 +637,23 @@ D;JLT
 //sets up varaibles and switches ball address to the top of the ball
 @upDown 
 M=-1 //sets up down to -1 (so that in future goes to up loop)
-@224
+//@224
+//D=A
+@32
 D=A
 @ball
 M=M-D
-@Up
+@topBall
+M=M-D
+
+@NotEnd
 0;JMP //switches addres to top now instead of bottom
-
-(Up) //move ball up one line
-//sets top to black
-@2016
-D=A
-@ball //sets ball at address (address is new top row) = 2016 (middle 6 bits black)
-A=M
-M=D
-
-//makes new address 32 higher
-@32
-D=A
-@ball 
-M=M-D //new addres is 32 higher
-@224 //32*7 --> goes back down 7 rows, size of ball +1(plus one bc already update addy to b one up), to delete line
-D=A
-@ball
-A=M+D //erases bottom row
-M=0
-
-//sets to down if needs to
-@ball
-D=M
-@SCREEN
-D=D-A //how many busses from start (if less than 96 busses)
-@96
-D=D-A //diff-address if neg then reverse
-@setDown
-D;JLT //sets back to down if at top
-
-@CheckKBD //other wise goes to keybord
-0;JMP
-
-(setDown) //sets ball movment back to down
-//sets top of ball black
-@2016
-D=A
-@16463 //second row 
-M=D //fills in top line of ball
-
-//erases bottom of ball
-@271
-D=A
-@SCREEN
-A=A+D
-M=0 //sets last bus = 0 (because code is built to bounce if next bus !=0)
-
-//sets variables to down and changes to store the address at the bottom of ball
-@upDown
-M=0 //sets back to down
-@239 
-D=A
-@SCREEN
-D=D+A
-@ball
-M=D //sets new start of the ball to 239
-@CheckKBD
-0;JMP //goes back to check kbd
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 //inf loop when lost
 (End)
@@ -712,36 +712,8 @@ M=D //sets middle 6 pixels black using 2016
 @192
 D=A
 @lastline
-M=M-D //192 goes up 6 rows
-A=M
+A=M-D //192 goes up 6 rows
 M=0
-
-//pauses before erasing ball so can see fall all the way
-@16000
-D=A
-(FinalLoop3)
-D=D-1
-@FinalLoop3
-D;JNE
-
-@6 //counter for loop to erase the ball
-D=A
-@deleteCount
-M=D //counter starts at 6 for 6 linges
-
-//Making ball disapear
-(DeleteBall)
-@32
-D=A //amnt to change line
-@lastline
-M=M+D //memory = last row + 32 (moving down a row)
-A=M
-M=0 //M = 0 erases the line
-@deleteCount //decreases counter by 1
-M=M-1
-D=M
-@DeleteBall //repeats loop unless counter at 0 (repeats 6 times)
-D;JNE
 
 //final inf loop
 (EndLoop)
