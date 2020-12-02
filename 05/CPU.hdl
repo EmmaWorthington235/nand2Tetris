@@ -40,4 +40,27 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+    Not(in=instruction[15], out=aint);
+    Not(in=aint, out=cint); //c ints start w a 1
+
+    And(a=aint, b=instruction[5], out=andaint); //if d1 = 1 and is an a instruct
+    Mux16(a=instruction, b=outAlu, sel=andaint, out=inareg);
+
+    ARegister(in=inareg, load=aint, out=outareg); //problem?
+
+    //3
+    Mux16(a=outareg, b=inM, sel=instruction[12], out=am);
+    
+    //4
+    And(a=cint, b=instruction[4], out=loaddreg); //idk if neccisary
+    DRegister(in=outAlu, load=loaddreg, out=outdreg);
+
+    //5
+    ALU(x=outdreg, y=am, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=outAlu, zr=zrout, ng=ngout);
+    And16(a=true, b=outAlu, out=outM); //can u just add into previous line?
+    And(a=cint, b=instruction[3], out=writeM); //d3
+
+    And16(a=true, b=instruction[0..14], out=writeM); how do u do address M
+
+    
 }
