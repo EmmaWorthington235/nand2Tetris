@@ -40,27 +40,37 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+    //1
     Not(in=instruction[15], out=aint);
-    Not(in=aint, out=cint); //c ints start w a 1
+   // Not(in=aint, out=cint); //c ints start w a 1
 
-    And(a=aint, b=instruction[5], out=andaint); //if d1 = 1 and is an a instruct
-    Mux16(a=instruction, b=outAlu, sel=andaint, out=inareg);
+    //2
+    //And(a=aint, b=instruction[5], out=andaint); //if d1 = 1 and is an a instruct
+    Mux16(a=outAlu, b=instruction, sel=aint, out=inareg);
 
-    ARegister(in=inareg, load=aint, out=outareg); //problem?
+    Or(a=aint, b=instruction[5], out=loadareg);
+    ARegister(in=inareg, load=loadareg, out=outareg, out[0..14]=addressM); //problem?
 
     //3
-    Mux16(a=outareg, b=inM, sel=instruction[12], out=am);
+    Mux16(a=outareg, b=inM, sel=instruction[12], out=am); //we know its an a instruciton
     
     //4
-    And(a=cint, b=instruction[4], out=loaddreg); //idk if neccisary
+    And(a=instruction[15], b=instruction[4], out=loaddreg); //idk if neccisary
     DRegister(in=outAlu, load=loaddreg, out=outdreg);
 
     //5
-    ALU(x=outdreg, y=am, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=outAlu, zr=zrout, ng=ngout);
-    And16(a=true, b=outAlu, out=outM); //can u just add into previous line?
-    And(a=cint, b=instruction[3], out=writeM); //d3
+    ALU(x=outdreg, y=am, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=outAlu, out=outM, zr=zrout, ng=ngout);
+    And(a=instruction[15], b=instruction[3], out=writeM); //d3 //has to b a c instruction
 
-    And16(a=true, b=instruction[0..14], out=writeM); how do u do address M
-
-    
+    //zrout ngout 210
+    And(a=ngout, b=instruction[2], out=j1);
+    And(a=zrout, b=instruction[1], out=j2);
+    Or(a=zrout, b=ngout, out=notpos);
+    Not(in=notpos, out=pos); //check if can do nor
+    And(a=pos, b=instruction[0], out=j3);
+    Or(a=j1, b=j2, out=j12);
+    Or(a=j12, b=j3, out=jump);
+    And(a=jump, b=instruction[15], out=pcload);
+    Not(in=pcload, out=incpc);
+    PC(in=outareg, load=pcload, inc=incpc, reset=reset, out[0..14]=pc);
 }
