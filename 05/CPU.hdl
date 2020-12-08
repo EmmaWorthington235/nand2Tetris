@@ -42,10 +42,8 @@ CHIP CPU {
     // Put your code here:
     //1
     Not(in=instruction[15], out=aint);
-   // Not(in=aint, out=cint); //c ints start w a 1
 
     //2
-    //And(a=aint, b=instruction[5], out=andaint); //if d1 = 1 and is an a instruct
     Mux16(a=outAlu, b=instruction, sel=aint, out=inareg);
 
     Or(a=aint, b=instruction[5], out=loadareg);
