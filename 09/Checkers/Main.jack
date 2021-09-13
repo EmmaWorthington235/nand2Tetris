@@ -1,0 +1,85 @@
+class Main {
+
+	//no jumping capability yet
+
+	function void main() {
+		var Game game;
+		let game=Game.new();
+		do Main.drawBoard();
+
+		while(game.isGameOver()){
+			do game.getMove();
+			if (game.isLegalMove()){
+				do game.makeMove();
+			}
+		}
+		return;
+
+	}
+
+	function void drawBoard() {
+		var int i;
+		var int j;
+		var int k;
+		let i=0;
+		while(i<8){ //i: rows
+			if (Main.mod(i,2)=0) {
+				let j=1;
+			}
+			if (Main.mod(i,2)=1) {
+				let j=0;
+			}
+
+			while (j<8) { //j: columns
+				do Screen.setColor(true);
+				do Screen.drawRectangle(128+Math.multiply(28,j),16+Math.multiply(28,i),156+Math.multiply(28,j),44+Math.multiply(28,i));
+				
+				if(~((i=3)|(i=4))) { //creates the circles
+					do Screen.setColor(false);
+					do Screen.drawCircle(128+Math.multiply(28,j)+14,16+Math.multiply(28,i)+14,10);
+				}
+				if (i>4) { //puts dots on the bottom circles
+					do Screen.setColor(true);
+					do Screen.drawCircle(128+Math.multiply(28,j)+14,16+Math.multiply(28,i)+14, 2);
+				}
+				let j = j+2;
+			}
+			let i = i+1;
+		}
+
+		do Output.moveCursor(0,17);
+		do Output.printString("1   2  3   4   5  6   7  8");
+	
+		do Output.moveCursor(22,17);
+		do Output.printString("1   2  3   4   5  6   7  8");
+
+		do Output.moveCursor(2,14);
+		do Output.printInt(1);
+		do Output.moveCursor(5,14);
+		do Output.printInt(2);
+		do Output.moveCursor(8,14);
+		do Output.printInt(3);
+		do Output.moveCursor(10,14);
+		do Output.printInt(4);
+		do Output.moveCursor(12,14);
+		do Output.printInt(5);
+		do Output.moveCursor(15,14);
+		do Output.printInt(6);
+		do Output.moveCursor(18,14);
+		do Output.printInt(7);
+		do Output.moveCursor(20	,14);
+		do Output.printInt(8);
+		
+		return;
+	}
+
+
+	function int mod(int moddee, int modder) {
+		var int quotient;
+		let quotient = Math.divide(moddee,modder);
+		return moddee-Math.multiply(quotient,modder);
+	}
+
+
+
+}

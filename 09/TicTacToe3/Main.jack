@@ -1,0 +1,107 @@
+
+
+class Main {
+
+   function void main() {
+
+var Board b;
+var int letter, count, move, winner, valid, count;
+var String name;
+var Random ran;
+
+let ran = Random.new();//new random number generator
+
+let count = 0;//moves that have been made
+
+     do Output.printString("Computer is rectangles, you are circles");
+     let b = Board.new(0);  
+     let name = Keyboard.readLine("Enter your name, then hit return when done");
+
+	do Screen.clearScreen();
+
+while(count < 9){
+
+	do b.draw();       // draws board
+	
+	let move = Keyboard.readInt("Enter where would you like to put your piece, then hit return when done:");//where move happens
+
+
+	
+	let valid = b.addPiece(move, 1);//1 = person, then where your move goes
+		if(valid = 0){
+			while(valid = 0){//error checker
+
+			let move = Keyboard.readInt("Enter where would you like to put your piece, then hit return when done:");
+			let valid = b.addPiece(move, 1);
+
+				}//keeps going until the move is valid spot
+
+	}
+	let count = count + 1;//increments for every move
+
+
+	do Screen.clearScreen();//clears screen
+
+	do b.draw();//redraws
+
+	let winner = b.winGame();//checks if someone has won the game
+
+	if(winner = -1){
+	do Output.printString("Game over ");
+	do Output.printString(name);
+	do Output.printString(" wins!");
+	let count = 9;//automatically means game is over
+	}
+
+	if(count > 8){
+//skip the computer move and end the game
+
+	}else{
+	do Sys.wait(300);
+	let move = Main.compMove(ran);//passes in random, gets computer move
+
+
+	let valid = b.addPiece(move, 0);//0 indicates the computer is moving
+
+		if(valid = 0){//checks if the computer move is an empty space
+			while(valid = 0){
+
+			let move = Main.compMove(ran);
+			let valid = b.addPiece(move, 0);
+
+				}//keeps going until the move is valid spot
+
+		}
+	let count = count + 1;
+
+	do Screen.clearScreen();
+
+	do b.draw();
+
+	let winner = b.winGame();//checks if someone has won
+
+		if(winner = -1){
+	do Output.printString("Game over, computer wins!");
+	let count = 9;//automatically ends game
+		}
+	}//end of computer else statment
+
+}//end of while
+
+do b.dispose();//gets rid of board
+do ran.dispose();//gets rid of random
+      return;//end game
+}
+
+
+function int compMove(Random ran){
+var int spot;
+
+let spot = ran.randRange(8);
+return spot;
+
+}
+
+
+
+}

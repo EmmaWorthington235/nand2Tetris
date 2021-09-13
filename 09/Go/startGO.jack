@@ -1,0 +1,33 @@
+ 
+class startGO {
+
+  field int time;
+  field String order;
+  constructor startGO new () {
+	let time = 10;
+	return this;
+  }
+  
+  method void countdown() {
+	do Sys.wait(2500);
+	do Screen.clearScreen();	
+	while(time>0) {
+		let time = time -1;
+		do Sys.wait(1000);
+  	}
+	do Output.moveCursor(20,30);
+	do Output.printString("FIRE!!!!!");
+  	let order = Keyboard.keyPressed();
+	do Output.printString("The winner is: ");
+	do Output.printString(order);
+	return;
+
+}
+  method void dispose() {
+	do Memory.deAlloc(this);
+	return;
+  }
+}
+
+
+

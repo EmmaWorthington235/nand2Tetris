@@ -1,0 +1,265 @@
+function Game.new 0
+push constant 8
+call Memory.alloc 1
+pop pointer 0
+call Board.new 0
+pop this 0
+push constant 12
+pop this 1
+push constant 12
+pop this 2
+push constant 0
+pop this 3
+push pointer 0
+return
+function Game.getMove 3
+push argument 0
+pop pointer 0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push constant 12
+call String.new 1
+push constant 99
+call String.appendChar 2
+push constant 104
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 107
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 119
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+call Keyboard.readInt 1
+push constant 1
+sub
+pop this 4
+push constant 12
+call String.new 1
+push constant 99
+call String.appendChar 2
+push constant 104
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 107
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+call Keyboard.readInt 1
+push constant 1
+sub
+pop this 5
+push constant 11
+call String.new 1
+push constant 116
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 103
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 119
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+call Keyboard.readInt 1
+push constant 1
+sub
+pop this 6
+push constant 11
+call String.new 1
+push constant 116
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 103
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+call Keyboard.readInt 1
+push constant 1
+sub
+pop this 7
+push constant 0
+return
+function Game.makeMove 1
+push argument 0
+pop pointer 0
+push this 3
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop local 0
+label IF_FALSE0
+push this 3
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 1
+pop local 0
+label IF_FALSE1
+push this 0
+push this 4
+push this 5
+push constant 1
+neg
+call Board.set 4
+pop temp 0
+push this 0
+push this 6
+push this 7
+push local 0
+call Board.set 4
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 128
+push constant 28
+push this 5
+call Math.multiply 2
+add
+push constant 16
+push constant 28
+push this 4
+call Math.multiply 2
+add
+push constant 156
+push constant 28
+push this 5
+call Math.multiply 2
+add
+push constant 44
+push constant 28
+push this 4
+call Math.multiply 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 128
+push constant 28
+push this 7
+call Math.multiply 2
+add
+push constant 14
+add
+push constant 16
+push constant 28
+push this 6
+call Math.multiply 2
+add
+push constant 14
+add
+push constant 10
+call Screen.drawCircle 3
+pop temp 0
+push this 3
+not
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 128
+push constant 28
+push this 7
+call Math.multiply 2
+add
+push constant 14
+add
+push constant 16
+push constant 28
+push this 6
+call Math.multiply 2
+add
+push constant 14
+add
+push constant 2
+call Screen.drawCircle 3
+pop temp 0
+label IF_FALSE2
+push this 3
+not
+pop this 3
+push constant 0
+return
+function Game.isLegalMove 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+return
+function Game.isGameOver 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+return
+function Game.dispose 0
+push argument 0
+pop pointer 0
+push constant 0
+return

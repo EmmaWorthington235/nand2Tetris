@@ -1,0 +1,70 @@
+
+class Main {
+
+	function void main () {
+		var Board b;	
+		var String px, po, winner;
+		var boolean gameOver, validMove;
+		var int pxRow, poRow, pxColumn, poColumn, moveCounter;
+		let b = Board.new();
+		do Output.printString("Welcome to Tic-Tac-Toe!");
+		do Output.println();
+		do Output.printString("Note: row 0 is the top column, column 0 is the leftmost column, row 1 is the middle row, column 1 is the middle column, etc.");
+		do Output.println();
+		do Output.println();
+		let px = Keyboard.readLine("Player X, what is your name?");
+		do Output.println();
+		let po = Keyboard.readLine("Player O, what is your name?");
+		do Output.println();
+		let gameOver = false;
+		let validMove = false;
+		let moveCounter = 1;
+		do b.writeScreen();
+		while (~gameOver){
+			let validMove = false;
+			while (~validMove){
+				do Output.printString(px);
+				let pxRow = Keyboard.readInt(", what row would you like? (0-2)");
+				do Output.printString(px);
+				let pxColumn = Keyboard.readInt(", what column would you like? (0-2)");
+				let validMove = b.isValidMove(pxRow, pxColumn);
+			}
+			let moveCounter = moveCounter + 1;
+			do b.move(pxRow, pxColumn, "x");
+			do b.writeScreen();
+			let gameOver = b.isGameOver(px);
+			if (moveCounter > 9){			//if 9 turns have gone by (no more open spaces)
+				if (~gameOver){			//if nobody just won with that last turn
+					let moveCounter = 20;	//set the counter to 20 and end the loop
+					let gameOver = true;
+				}
+			}
+			if (~gameOver){			//no 'break' command, so this is my workaround
+				let validMove = false;
+				while (~validMove){
+					do Output.printString(po);
+					let poRow = Keyboard.readInt(", what row would you like? (0-2)");
+					do Output.printString(po);
+					let poColumn = Keyboard.readInt(", what column would you like? (0-2)");
+					let validMove = b.isValidMove(poRow, poColumn);
+				}
+				let moveCounter = moveCounter + 1;
+				do b.move(poRow, poColumn, "o");
+				do b.writeScreen();
+				let gameOver = b.isGameOver(po);
+			}
+
+		}
+		if (~(moveCounter=20)){
+			let winner = b.getWinner();
+			do Output.printString(winner);
+			do Output.printString(" is the winner!");
+		} else {
+			do Output.printString("TIE");
+		}
+
+		do b.dispose();
+		return;
+	}
+
+}

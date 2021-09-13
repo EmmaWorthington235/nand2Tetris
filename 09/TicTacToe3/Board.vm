@@ -1,0 +1,636 @@
+function Board.new 0
+push constant 5
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 1
+call String.new 1
+push constant 88
+call String.appendChar 2
+pop this 1
+push constant 1
+call String.new 1
+push constant 79
+call String.appendChar 2
+pop this 0
+push argument 0
+pop this 3
+push constant 1
+pop this 4
+goto IF_END0
+label IF_FALSE0
+push constant 1
+call String.new 1
+push constant 79
+call String.appendChar 2
+pop this 1
+push constant 1
+call String.new 1
+push constant 88
+call String.appendChar 2
+pop this 0
+push constant 1
+pop this 3
+push constant 0
+pop this 4
+label IF_END0
+push constant 9
+call Array2.new 1
+pop this 2
+push this 2
+push constant 1
+neg
+push constant 0
+call Array2.set 3
+pop temp 0
+push this 2
+push constant 2
+neg
+push constant 1
+call Array2.set 3
+pop temp 0
+push this 2
+push constant 3
+neg
+push constant 2
+call Array2.set 3
+pop temp 0
+push this 2
+push constant 4
+neg
+push constant 3
+call Array2.set 3
+pop temp 0
+push this 2
+push constant 5
+neg
+push constant 4
+call Array2.set 3
+pop temp 0
+push this 2
+push constant 6
+neg
+push constant 5
+call Array2.set 3
+pop temp 0
+push this 2
+push constant 7
+neg
+push constant 6
+call Array2.set 3
+pop temp 0
+push this 2
+push constant 8
+neg
+push constant 7
+call Array2.set 3
+pop temp 0
+push this 2
+push constant 9
+neg
+push constant 8
+call Array2.set 3
+pop temp 0
+push pointer 0
+return
+function Board.draw 2
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+push constant 60
+push constant 85
+push constant 380
+push constant 85
+call Screen.drawLine 4
+pop temp 0
+push constant 60
+push constant 170
+push constant 380
+push constant 170
+call Screen.drawLine 4
+pop temp 0
+push constant 180
+push constant 50
+push constant 180
+push constant 220
+call Screen.drawLine 4
+pop temp 0
+push constant 260
+push constant 50
+push constant 260
+push constant 220
+call Screen.drawLine 4
+pop temp 0
+label WHILE_EXP0
+push local 0
+push constant 9
+lt
+not
+if-goto WHILE_END0
+push constant 0
+pop local 1
+label WHILE_EXP1
+push local 1
+push constant 3
+lt
+not
+if-goto WHILE_END1
+push this 2
+push local 0
+call Array2.get 2
+push constant 1
+neg
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 2
+push local 0
+call Array2.get 2
+push constant 0
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push local 1
+call Board.drawCircle 2
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push local 0
+push local 1
+call Board.drawRectangle 2
+pop temp 0
+label IF_END1
+goto IF_END0
+label IF_FALSE0
+push local 1
+push local 0
+call Board.drawNum 2
+pop temp 0
+label IF_END0
+push local 1
+push constant 1
+add
+pop local 1
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP1
+label WHILE_END1
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push constant 0
+return
+function Board.dispose 0
+push argument 0
+pop pointer 0
+push this 2
+call Array2.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Board.addPiece 0
+push argument 0
+pop pointer 0
+push this 2
+push argument 1
+call Array2.get 2
+push constant 1
+neg
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+goto IF_END0
+label IF_FALSE0
+push argument 2
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 2
+push this 3
+push argument 1
+call Array2.set 3
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push this 2
+push this 4
+push argument 1
+call Array2.set 3
+pop temp 0
+label IF_END1
+push constant 1
+neg
+return
+label IF_END0
+function Board.winGame 1
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+push this 2
+push constant 0
+call Array2.get 2
+push this 2
+push constant 4
+call Array2.get 2
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 2
+push constant 4
+call Array2.get 2
+push this 2
+push constant 8
+call Array2.get 2
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 1
+neg
+pop local 0
+label IF_FALSE1
+label IF_FALSE0
+push this 2
+push constant 2
+call Array2.get 2
+push this 2
+push constant 4
+call Array2.get 2
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 2
+push constant 4
+call Array2.get 2
+push this 2
+push constant 6
+call Array2.get 2
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 1
+neg
+pop local 0
+label IF_FALSE3
+label IF_FALSE2
+push this 2
+push constant 0
+call Array2.get 2
+push this 2
+push constant 1
+call Array2.get 2
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 2
+push constant 1
+call Array2.get 2
+push this 2
+push constant 2
+call Array2.get 2
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 1
+neg
+pop local 0
+label IF_FALSE5
+label IF_FALSE4
+push this 2
+push constant 3
+call Array2.get 2
+push this 2
+push constant 4
+call Array2.get 2
+eq
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push this 2
+push constant 4
+call Array2.get 2
+push this 2
+push constant 5
+call Array2.get 2
+eq
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push constant 1
+neg
+pop local 0
+label IF_FALSE7
+label IF_FALSE6
+push this 2
+push constant 6
+call Array2.get 2
+push this 2
+push constant 7
+call Array2.get 2
+eq
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push this 2
+push constant 7
+call Array2.get 2
+push this 2
+push constant 8
+call Array2.get 2
+eq
+if-goto IF_TRUE9
+goto IF_FALSE9
+label IF_TRUE9
+push constant 1
+neg
+pop local 0
+label IF_FALSE9
+label IF_FALSE8
+push this 2
+push constant 0
+call Array2.get 2
+push this 2
+push constant 3
+call Array2.get 2
+eq
+if-goto IF_TRUE10
+goto IF_FALSE10
+label IF_TRUE10
+push this 2
+push constant 3
+call Array2.get 2
+push this 2
+push constant 6
+call Array2.get 2
+eq
+if-goto IF_TRUE11
+goto IF_FALSE11
+label IF_TRUE11
+push constant 1
+neg
+pop local 0
+label IF_FALSE11
+label IF_FALSE10
+push this 2
+push constant 1
+call Array2.get 2
+push this 2
+push constant 4
+call Array2.get 2
+eq
+if-goto IF_TRUE12
+goto IF_FALSE12
+label IF_TRUE12
+push this 2
+push constant 4
+call Array2.get 2
+push this 2
+push constant 7
+call Array2.get 2
+eq
+if-goto IF_TRUE13
+goto IF_FALSE13
+label IF_TRUE13
+push constant 1
+neg
+pop local 0
+label IF_FALSE13
+label IF_FALSE12
+push this 2
+push constant 2
+call Array2.get 2
+push this 2
+push constant 5
+call Array2.get 2
+eq
+if-goto IF_TRUE14
+goto IF_FALSE14
+label IF_TRUE14
+push this 2
+push constant 5
+call Array2.get 2
+push this 2
+push constant 8
+call Array2.get 2
+eq
+if-goto IF_TRUE15
+goto IF_FALSE15
+label IF_TRUE15
+push constant 1
+neg
+pop local 0
+label IF_FALSE15
+label IF_FALSE14
+push local 0
+return
+function Board.drawCircle 2
+push argument 1
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 120
+pop local 0
+goto IF_END0
+label IF_FALSE0
+push argument 1
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 210
+pop local 0
+goto IF_END1
+label IF_FALSE1
+push constant 330
+pop local 0
+label IF_END1
+label IF_END0
+push argument 0
+push constant 3
+lt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 70
+pop local 1
+goto IF_END2
+label IF_FALSE2
+push argument 0
+push constant 6
+lt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 130
+pop local 1
+goto IF_END3
+label IF_FALSE3
+push constant 195
+pop local 1
+label IF_END3
+label IF_END2
+push local 0
+push local 1
+push constant 6
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+return
+function Board.drawRectangle 4
+push argument 1
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 110
+pop local 0
+push constant 120
+pop local 1
+goto IF_END0
+label IF_FALSE0
+push argument 1
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 200
+pop local 0
+push constant 210
+pop local 1
+goto IF_END1
+label IF_FALSE1
+push constant 320
+pop local 0
+push constant 330
+pop local 1
+label IF_END1
+label IF_END0
+push argument 0
+push constant 3
+lt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 60
+pop local 2
+push constant 70
+pop local 3
+goto IF_END2
+label IF_FALSE2
+push argument 0
+push constant 6
+lt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 120
+pop local 2
+push constant 130
+pop local 3
+goto IF_END3
+label IF_FALSE3
+push constant 190
+pop local 2
+push constant 200
+pop local 3
+label IF_END3
+label IF_END2
+push local 0
+push local 2
+push local 1
+push local 3
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Board.drawNum 2
+push argument 1
+push constant 3
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 6
+pop local 0
+goto IF_END0
+label IF_FALSE0
+push argument 1
+push constant 6
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 12
+pop local 0
+goto IF_END1
+label IF_FALSE1
+push constant 16
+pop local 0
+label IF_END1
+label IF_END0
+push argument 0
+push constant 0
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 15
+pop local 1
+goto IF_END2
+label IF_FALSE2
+push argument 0
+push constant 1
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 24
+pop local 1
+goto IF_END3
+label IF_FALSE3
+push constant 36
+pop local 1
+label IF_END3
+label IF_END2
+push local 0
+push local 1
+call Output.moveCursor 2
+pop temp 0
+push argument 1
+call Output.printInt 1
+pop temp 0
+push constant 0
+return

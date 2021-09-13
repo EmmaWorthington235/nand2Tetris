@@ -1,0 +1,102 @@
+class Asteroid {
+
+    	field Array size;
+	field Array speed;
+	field Array loc;
+	field Array height;
+	field int numAst;
+	field int recentScore;
+	field int maxAsts;
+
+	/*
+	Arrays size, speed, loc, and height contain the data of all the asteroids. When an asteroid is created
+	new values are randomly generated for size, speed and location. speed somewhat depends on 
+	the player's current score, becoming faster as the score increases. When an asteroid goes off the screen a new
+	one is immediately created to replace its places in the 4 arrays with new values.
+	*/
+
+	constructor Asteroid new() {
+		let numAst = 0;
+		let size = Array.new(20);
+		let speed = Array.new(20);
+		let loc = Array.new(20);
+		let height = Array.new(20);
+		let recentScore = 0;
+		let maxAsts = 6;
+		return this;
+	}
+
+
+	method void move() {
+		// increments all asteroids down based on their speeds. 
+		var int count;
+		let count = 0;
+		while (count < numAst) {
+			do Screen.setColor(false);
+			do Screen.drawCircle(loc[count], height[count], size[count]);
+			let height[count] = height[count] + speed[count];
+			if (height[count] < (255 - size[count])) {
+				do Screen.setColor(true);
+				do Screen.drawCircle(loc[count], height[count], size[count]);
+			}
+			else {
+				do replaceAst(count);
+			} 
+			let count = count+1;
+		}
+		return;
+	}
+
+	method void newAst(int score) { 
+		// creates a new asteroid
+		let recentScore = score;
+		if ((Math.divide(score, 100) > maxAsts) & (maxAsts < 15)) {
+			let maxAsts=maxAsts+1;
+		}
+		if (numAst > maxAsts) {
+			return;
+		}
+		let size[numAst] = (10 + Random.randRange(15));
+		let speed[numAst] = (2 + (Math.divide(Random.randRange(recentScore), 175)));
+		let loc[numAst] = 26 + Random.randRange(460);
+		let height[numAst] = size[numAst];
+		do Screen.setColor(true);
+		do Screen.drawCircle(loc[numAst], height[numAst], size[numAst]);
+		let numAst = numAst+1; 
+		return;
+	}
+
+	method void replaceAst(int index) {
+		// creates a replacement asteroid after the previous one has gone off the screen
+		let size[index] = (10 + Random.randRange(15));
+		let speed[index] = (2 + (Math.divide(Random.randRange(recentScore), 175)));
+		let loc[index] = 26 + Random.randRange(460);
+		let height[index] = size[index];
+		return;
+	}
+
+	method boolean hit (int playerLoc) {
+		// determines if the player has been hit by on elf the asteroids
+		var int count;
+		let playerLoc = (playerLoc+6);
+		let count = 0;
+		while(count < numAst) {
+			if (((Math.abs(loc[count]-playerLoc)) < (size[count] + 25)) & ((height[count]+size[count])>220)) {
+				return true;
+			}
+			let count = count+1;
+		}
+		return false;
+	}
+
+	method void dispose () {
+		do Memory.deAlloc(size);
+		do Memory.deAlloc(speed);
+		do Memory.deAlloc(loc);
+		do Memory.deAlloc(height);
+		do Memory.deAlloc(this);
+		return;
+	}
+
+
+}	

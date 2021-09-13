@@ -1,0 +1,135 @@
+class Tictactoe {
+field Array arr;
+
+constructor Tictactoe new(){
+//constructs the board
+var int c;
+let c=0;
+let arr=Array.new(9);
+return this;
+}
+
+method void play (){
+//plays the game, stopping when someone has won and alternating player turns
+var int input;
+var int input1;
+var int temp;
+var int player;
+var int over;
+let over=0;
+let player=1;
+while((over=0)){
+let input=Keyboard.readInt("Enter the row:");
+let input1=Keyboard.readInt("Enter the column. Remember that an illegal move costs you your turn!:");
+do Screen.clearScreen();
+let temp=3*(input-1)+(input1-1);
+if(arr[temp]=0){
+let arr[temp]=player;
+}
+if(player=1){
+let player=2;
+}
+else{
+let player=1;
+}
+do print();
+let over=isOver();
+}
+if (over=1){
+do Output.printString("Player 1 wins");
+}
+else{
+do Output.printString("Player 2 wins");
+}
+return;
+}
+
+method int isOver(){
+//returns winner if the game is over, else returns 0 to continue
+var int toRe;
+let toRe=0;
+if(arr[0]=arr[1]){
+if (arr[1]=arr[2]){
+if(~(arr[0]=null)){
+let toRe=arr[0];
+}
+}
+}
+if(arr[3]=arr[4]){
+if (arr[4]=arr[5]){
+if(~(arr[3]=null)){
+let toRe=arr[3];
+}
+}
+}
+if(arr[6]=arr[7]){
+if (arr[7]=arr[8]){
+if(~(arr[6]=null)){
+let toRe=arr[0];
+}
+}
+}
+if(arr[0]=arr[4]){
+if (arr[4]=arr[8]){
+if(~(arr[0]=null)){
+let toRe=arr[0];
+}
+}
+}
+if(arr[2]=arr[4]){
+if (arr[4]=arr[6]){
+if(~(arr[2]=null)){
+let toRe=arr[2];
+}
+}
+}
+if(arr[0]=arr[3]){
+if (arr[3]=arr[6]){
+if(~(arr[0]=null)){
+let toRe=arr[0];
+}
+}
+}
+if(arr[1]=arr[4]){
+if (arr[7]=arr[4]){
+if(~(arr[1]=null)){
+let toRe=arr[4];
+}
+}
+}
+if(arr[2]=arr[5]){
+if (arr[5]=arr[8]){
+if(~(arr[2]=null)){
+let toRe=arr[2];
+}
+}
+}
+return toRe;
+}
+
+method void print() {
+//prints the array
+		var int i;
+		let i =0;
+		while(i<9) {
+			do Output.printInt(arr[i]);
+			let i = i+1;
+			if (i=6){
+			do Output.println();
+				}
+			if (i=3){
+			do Output.println();
+				}
+		}
+		do Output.println();
+		return;
+	}	
+
+method void dispose(){
+//disposes of the array/locals
+do Memory.deAlloc(this);
+do arr.dispose();
+return;
+}
+
+}

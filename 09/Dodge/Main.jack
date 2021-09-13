@@ -1,0 +1,87 @@
+
+class Main {
+
+function void main() {
+	var boolean alive;
+	var Timer tm;
+	var Player pl;
+	var char key;
+	var Asteroid ast;
+	var int aPressed, dPressed, count;
+	var Array keys;
+	
+	// print directions
+	do Output.moveCursor(11, 13);
+	do Output.printString("PRESS A AND D TO MOVE. DON'T GET HIT!");
+	do Sys.wait(3000);
+	do Screen.clearScreen();
+	
+	let alive = true;
+	let tm = Timer.new();
+	let pl = Player.new();
+	let ast = Asteroid.new();
+	let aPressed = 1; // keeps track of number of times a is pressed
+	let dPressed = 1; // similarly for d
+	let count = 0;
+	let keys = Array.new(50); // array to keep track of user input in the last 50 loops
+		
+	while(alive) {
+		let key = Keyboard.keyPressed();
+		if (key = 65) { // if a (left)
+			do pl.moveLeft();
+			let aPressed = aPressed + 1;
+		}
+		if (key = 68) { // if d (right)
+			do pl.moveRight();
+			let dPressed = dPressed + 1;
+		}
+		
+		let keys[count] = key;
+		let count = count + 1;
+		if (count = 50) {
+			let count = 0; // keeps refreshing keys array with new inputs
+		}		
+			/* following if statement creates the pseudo random effect using
+			user input from pressing A and D. just does random math then
+			occasionally sets the seed of the random generator a new value */ 
+		
+		if( ((Math.abs(aPressed-dPressed)) > 3) & (Main.sum(keys)>200)) { 
+			do Random.setSeed(Math.multiply(Math.abs(aPressed-dPressed), Main.sum(keys))); 
+		}
+		if ((Random.randRange(1000) + tm.getScore()) > 999) {
+			do ast.newAst(tm.getScore()); // creates new asteroid
+		}
+		do ast.move();
+		do tm.update();
+		if(ast.hit(pl.getLoc())) {
+			let alive = false; }
+	}
+	do pl.dead();
+	do tm.finish();
+	do ast.dispose();
+	do pl.dispose();
+	do Sys.halt();
+	
+	return;
+    }
+
+function int sum (Array a) { 
+	// returns the sum of an array of integers
+	var int count;
+	var int sum;
+	let count = 0;
+	let sum = 0;
+	while (count < 50) {
+		let sum = sum + a[count];
+		let count = count+1;
+	}
+	return sum;
+   }
+	
+
+ method void dispose () {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+}	

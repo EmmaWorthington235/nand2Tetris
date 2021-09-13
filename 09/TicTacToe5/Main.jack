@@ -1,0 +1,54 @@
+/* TIC TAC TOE */
+ class Main {
+
+	function void main() {
+		var Draw d;
+		var Player p;
+		var int key;
+		var boolean gameOver;
+		var int move, numMoves;
+		var Array board;
+
+		let d = Draw.new();
+		let p = Player.new();
+
+		//screen with rules, game name, team assignments, and prompt to start (with space)
+		do d.printIntro();
+		let key = -1;
+		while (~(key = 32)){
+			let key = Keyboard.readChar(); //space is 32 in ascii
+		}
+
+		//draw board
+		do d.drawBoard();
+
+		//move and get moves
+		let gameOver = false;
+		let numMoves = 0;
+		while (~(gameOver)){
+			//human move
+			let move = p.getPlayerMove(numMoves);
+			do d.move(move, 1);
+			let numMoves = numMoves + 1;
+			
+			//cpu move
+			let move = p.getCPUMove(); 
+			let board = d.getArray();
+			while(~(board[move] = 0)){
+				let move = p.getCPUMove();
+			}
+			do d.move(move, 2);
+
+			//check if game over
+			let gameOver = d.isGameOver();
+		}
+
+		//game over screen
+		do d.gameOver();
+
+		//finish up
+		do d.dispose();
+		do p.dispose();
+		return;
+	}
+}

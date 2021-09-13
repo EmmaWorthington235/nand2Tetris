@@ -1,0 +1,79 @@
+class Tetris {
+
+   /** Constructs a new Square Game. */
+   field int x, y, pos, i; //location of middle block top right corner, and position (4 diff types)
+   field Shape shape;
+
+   constructor Tetris new() {
+      // Creates the frame and new shape
+      do Screen.drawRectangle(172, 0, 175, 255);
+      do Screen.drawRectangle(321, 0, 324, 255);
+      //do Screen.drawRectangle(175, 0, 321, 3);
+      do Screen.drawRectangle(175, 252, 321, 255);
+      return this;
+   }
+
+   method void play(){
+      let shape = Shape.new();
+
+      while (shape.ground()){
+         do shape.moveDown();
+         let i = 5;
+            while (shape.ground()&i>0){
+               do shape.moveDown();
+               let i=i-1;
+               do Sys.wait(4);
+            }
+         if (Keyboard.keyPressed()=132 & shape.Rwall()){ //right key --> move right
+            do shape.moveRight();
+         }
+         if (Keyboard.keyPressed()=130 & shape.Lwall()){ //left key --> move left
+            do shape.moveLeft();
+         }
+         if (Keyboard.keyPressed()=133){ //down key --> move down
+            let i =10;
+            while (shape.ground()&i>0){
+               do shape.moveDown();
+               let i=i-1;
+               do Sys.wait(4);
+            }
+         }
+         if (Keyboard.keyPressed()=128){ //return/enter key --> drop shape
+            do shape.drop();
+         }
+         if (Keyboard.keyPressed()=131){ //up key --> turn shape clockwise
+            do shape.turn();
+         }
+         do Sys.wait(100);
+         
+      }
+      //end game if tower reaches top of screen
+       if (shape.roof()){
+            do Output.printString("End of game!");
+            return;
+         }
+      //clear rows that are filled --NOT DONE YET
+      /**if (shape.full()){
+         do shape.clearRow();
+      }
+      */
+      do play();
+      return;
+   }
+   //broken
+   method boolean endGame(){
+      //add shape.ground() later
+      //if (Keyboard.keyPressed()!=0) do shape.turn(Keyboard.keyPressed());
+      return true;
+   }
+
+   /** Disposes this game. */
+   method void dispose() {
+    do Memory.deAlloc(this);
+    do shape.dispose();
+    return;
+   }
+}
+
+
+

@@ -1,0 +1,7 @@
+Hi Dr. Mattern!
+I made Tic-Tac-Toe. It's pretty self-explanatory. 
+It is meant to be played by two human players (who are both asked for input). 
+The first player to input their name is always 'player x' and the second player will be 'player o'.
+
+I hope you enjoy!
+ - Claudia

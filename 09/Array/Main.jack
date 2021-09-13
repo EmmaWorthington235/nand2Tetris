@@ -1,0 +1,10 @@
+class Main {
+    function void main(){
+        vair int i;
+        var Array2 ar;
+
+        let ar = Array2.new(6)
+        let i =0
+
+    }
+}

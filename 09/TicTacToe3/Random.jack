@@ -1,0 +1,45 @@
+/** Creates a random number between 0 and 1 */
+class Random {
+
+    field int seed;
+
+   constructor Random new() {
+	let seed = 0;
+	return this;
+   }
+
+   method void dispose() {
+	do Memory.deAlloc(this);
+	return;
+   }
+    
+    method void setSeed(int newSeed) {
+        let seed = newSeed;
+        return;
+    }
+
+    method int rand() {
+        /** return a random number in the range 0..32767 */
+        let seed = seed + 20251;
+        if (seed < 0) {
+            let seed = seed - 32767 - 1;
+        }
+        return seed;
+    }
+
+    method int randRange(int range) {
+        /** return a random number in the range 0..range */
+        var int mask;
+        var int ret;
+        let mask = 1;
+        while (mask < range) {
+            let mask = mask * 2 + 1;
+        }
+        let ret = rand() & mask;
+        while (ret > range) {
+            let ret = rand() & mask;
+        }
+        return ret;
+    }
+
+}

@@ -1,0 +1,90 @@
+function Main.main 7
+call Draw.new 0
+pop local 0
+call Player.new 0
+pop local 1
+push local 0
+call Draw.printIntro 1
+pop temp 0
+push constant 1
+neg
+pop local 2
+label WHILE_EXP0
+push local 2
+push constant 32
+eq
+not
+not
+if-goto WHILE_END0
+call Keyboard.readChar 0
+pop local 2
+goto WHILE_EXP0
+label WHILE_END0
+push local 0
+call Draw.drawBoard 1
+pop temp 0
+push constant 0
+pop local 3
+push constant 0
+pop local 5
+label WHILE_EXP1
+push local 3
+not
+not
+if-goto WHILE_END1
+push local 1
+push local 5
+call Player.getPlayerMove 2
+pop local 4
+push local 0
+push local 4
+push constant 1
+call Draw.move 3
+pop temp 0
+push local 5
+push constant 1
+add
+pop local 5
+push local 1
+call Player.getCPUMove 1
+pop local 4
+push local 0
+call Draw.getArray 1
+pop local 6
+label WHILE_EXP2
+push local 4
+push local 6
+add
+pop pointer 1
+push that 0
+push constant 0
+eq
+not
+not
+if-goto WHILE_END2
+push local 1
+call Player.getCPUMove 1
+pop local 4
+goto WHILE_EXP2
+label WHILE_END2
+push local 0
+push local 4
+push constant 2
+call Draw.move 3
+pop temp 0
+push local 0
+call Draw.isGameOver 1
+pop local 3
+goto WHILE_EXP1
+label WHILE_END1
+push local 0
+call Draw.gameOver 1
+pop temp 0
+push local 0
+call Draw.dispose 1
+pop temp 0
+push local 1
+call Player.dispose 1
+pop temp 0
+push constant 0
+return

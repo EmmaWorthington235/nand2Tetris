@@ -1,0 +1,93 @@
+class ScreenPlayer {
+	field Array aliens;
+
+
+	// maybe add some explosionswhen aliens are hit and allow for the aliens to shuffle a bit
+	constructor ScreenPlayer new () {
+		var int row;
+		var int column;
+
+
+
+
+		let row = 7;
+		let column = 7;
+
+		while (row < 96) {
+			while (column < 512) {
+				//Printing the aliens
+				do Screen.setColor(true);
+				do Screen.drawPixel(column+3,row+3);
+				do Screen.drawPixel(column+12,row+3);
+				do Screen.drawPixel(column+4,row+4);
+				do Screen.drawPixel(column+11,row+4);
+
+				do Screen.drawRectangle(column+5,row+5,column+10,row+5);
+				do Screen.drawRectangle(column+4,row+6,column+11,row+6);
+				do Screen.drawRectangle(column+3,row+7,column+12,row+7);
+				//need to put in eyes
+				do Screen.drawRectangle(column+2,row+8,column+13,row+11);
+				//need to take out middle part
+				do Screen.drawPixel(column+2,row+12);
+				do Screen.drawPixel(column+13,row+12);
+				do Screen.drawPixel(column+4,row+12);
+				do Screen.drawPixel(column+11,row+12);
+				do Screen.drawPixel(column+2,row+13);
+				do Screen.drawPixel(column+13,row+13);
+				do Screen.drawPixel(column+5,row+13);
+				do Screen.drawPixel(column+6,row+13);
+				do Screen.drawPixel(column+10,row+13);
+				do Screen.drawPixel(column+9,row+13);
+				
+				do Screen.setColor(false);
+				do Screen.drawPixel(column+5,row+7);
+				do Screen.drawPixel(column+10,row+7);
+				do Screen.drawRectangle(column+6,row+11,column+9,row+11);
+				
+
+				let column = column + 96;
+
+			}
+			let column = 7;
+			let row = row + 32;
+		}
+
+		//aliens[6] stores the row of the last alien in each column
+		let aliens = Array.new(6);
+		let aliens[0]=3;
+		let aliens[1]=3;
+		let aliens[2]=3;
+		let aliens[3]=3;
+		let aliens[4]=3;
+		let aliens[5]=3;
+
+		return this;
+	}
+
+	method void alienHit (int column, int row) {
+		var int cIndex;
+		var int rIndex;
+		let cIndex = 7 + Math.multiply(column,96);
+		let rIndex = 7 + Math.multiply(row,32);
+
+
+		do Screen.setColor(false);
+		do Screen.drawRectangle(cIndex,rIndex,cIndex+16,rIndex+16);
+		return;
+	}
+
+	method int getRow (int col) {
+		return aliens[col];
+	}
+
+	method void setRow (int col) {
+		let aliens[col] = aliens[col] - 1;
+		return;
+	}
+
+	method void dispose () {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+}

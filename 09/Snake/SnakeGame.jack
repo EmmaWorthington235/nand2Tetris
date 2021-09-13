@@ -1,0 +1,267 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/Square/SquareGame.jack
+
+/**
+ * Implements the Square Dance game.
+ * This simple game allows the user to move a black square around
+ * the screen, and change the square's size during the movement.
+ * When the game starts, a square of 30 by 30 pixels is shown at the
+ * top-left corner of the screen. The user controls the square as follows.
+ * The 4 arrow keys are used to move the square up, down, left, and right.
+ * The 'z' and 'x' keys are used, respectively, to decrement and increment
+ * the square's size. The 'q' key is used to quit the game.
+ */
+
+class SnakeGame {
+   field Snake snake; // the square of this game
+   field Array snakes;
+   field int direction; // the square's current direction: 
+                        // 0=none, 1=up, 2=down, 3=left, 4=right
+   field Array apples; //Keeps track of all of the positions of apples
+   field int numApples; //Number of apples in play during the game
+   field int size;
+   field Array appleLoc;
+   field int appIndex, snakeIndex;
+
+   /** Constructs a new Square Game. */
+   constructor SnakeGame new() {
+      // Creates a 16 by 16 pixels square and positions it at the top-left
+      // of the screen.
+      var Array temp;
+      var int i;
+      
+      let size = 15;
+      let snake = Snake.new(0, 0, size); //so I can fit a tail inside of it
+      let snakes = Array.new(100);
+      let snakes[0] = snake;
+      let snakeIndex = 1;
+      let direction = 0;  // initial state is no movement
+      let numApples = 3;  //What are they initialized as?
+      let apples = Array.new(numApples);
+      let appleLoc = Array.new(numApples);
+      let i = 0;
+      while (i < numApples) {
+         let temp = Array.new(2);
+         let temp[0] = (i+1) * 96;
+         let temp[1] = (i+1) * 48;
+         let appleLoc[i] = temp;
+         let i = i+1;
+      }
+      let appIndex = 0;
+      return this;
+   }
+
+   /** Disposes this game. */
+   method void dispose() {
+      do snake.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Moves the square in the current direction. */
+   method void moveSnake() {
+      if (direction = 1) { 
+         do snake.moveUp(); 
+      } if (direction = 2) { 
+         do snake.moveDown(); 
+      }
+      if (direction = 3) { 
+         do snake.moveLeft(); 
+      }
+      if (direction = 4) { 
+         do snake.moveRight(); 
+      }
+      do moveSegments();
+      do Sys.wait(100);  // delays the next movement
+      return;
+   }
+
+   method void moveSegments() {
+      var int i;
+      var Snake temp1;
+      var Snake temp2;
+      var int Ax;
+      var int Ay;
+      var int Bx;
+      var int By;
+      if (snakeIndex > 1) {
+         let i = snakeIndex - 1;
+         while (i > 0) {
+            let temp1 = snakes[i-1];
+            let temp2 = snakes[i];
+            let Ax = temp1.getX();
+            let Ay = temp1.getY();
+
+            let i = i - 1;
+         }
+      }
+      return;
+   }
+
+   method void formApple() {
+      var Apple app;
+      var int i;
+      var boolean exit;
+      var Array temp;
+      var int x;
+      var int y;
+      let temp = appleLoc[appIndex];
+      let exit = false;
+      let i = 0;
+      while (i < numApples) {
+         if (apples[i] = null) {
+            let x = temp[0];
+            let y = temp[1];
+            let app = Apple.new(x, y, size); // Five might be too big.
+            let apples[i] = app;
+            let appIndex = appIndex + 1;
+            if (appIndex = numApples) {
+               let appIndex = 0;
+            }
+            return;
+         }
+         let i = i + 1;
+      }
+      return;
+   }
+
+   method void consumeApple(int index) { //Removes an apple from the array. Should create a new snake segment here.
+      var Apple temp;
+      let temp = apples[index];
+      do temp.clear(); //Is this redundant?
+      do temp.dispose();
+      let apples[index] = null;
+      do addSegment();
+      return;
+   }
+
+   method void addSegment() {
+      var Snake temp1;
+      var Snake temp2;
+      var Snake tempSnake;
+      var int Ax;
+      var int Ay;
+      var int Bx;
+      var int By;
+      let temp1 = snakes[snakeIndex-1];
+      let Ax = temp1.getX();
+      let Ay = temp1.getY();
+
+      if (snakeIndex = 1) {
+         if (direction = 1) { //Up
+            let By = Ay - size - 1;
+            let Bx = Ax;
+         } if (direction = 2) { //Down 
+            let By = Ay + size + 1;
+            let Bx = Ax;
+         } if (direction = 3) { //left arrow = 3
+            let Bx = Ax + size + 1;
+            let By = Ay;
+         } if (direction = 4) { //Right arrow = 4
+            let Bx = Ax - size - 1;
+            let By = Ay;
+         }
+      } else {
+         let temp2 = snakes[snakeIndex-2];
+         let Bx = temp2.getX();
+         let By = temp2.getY();
+         if (Ax > Bx) {
+            let Bx = Bx - size - 1;
+         } if (Ax < Bx) {
+            let Bx = Bx - size + 1;
+         } if (Ay > By) {
+            let By = By - size - 1;
+         } if (Ay < By) {
+            let By = By + size + 1;
+         }
+      }
+      let tempSnake = Snake.new(Bx, By, size);
+      let snakes[snakeIndex] = tempSnake;
+      let snakeIndex = snakeIndex + 1;
+      return;
+   }
+
+   method int checkApple() {
+      var int x;
+      var int y;
+      var int appX;
+      var int appY;
+      var int i;
+      var boolean exit;
+      var Apple temp;
+      var Snake tempS;
+      
+      let tempS = snakes[0];
+      let x = tempS.getX();
+      let y = tempS.getY();
+      
+      let i = 0;
+      while (i < numApples) { //Only need to check the head... No need for j.
+         if (~(apples[i] = null)) {
+            let temp = apples[i];
+            let appX = temp.returnX();
+            let appY = temp.returnY();
+            if (appX = x) { //Directly on top of
+               if (appY = y) {
+                  return i;
+               }
+            }
+         }
+         let i = i+1;
+      }
+      return -1;
+   }
+
+   /** Runs the game: handles the user's inputs and moves the square accordingly */
+   method void run() {
+      var int check;
+      var char key;  // the key currently pressed by the user
+      var boolean exit;
+      var int counter;
+      let counter = 0;
+      let exit = false;
+      
+      while (~exit) {
+         // waits for a key to be pressed
+         while (key = 0) {
+            let key = Keyboard.keyPressed();
+            do moveSnake();
+            let check = checkApple();
+            if (~(check = -1)) {
+               do consumeApple(check);
+            }
+            let counter = counter + 1;
+            if (counter = 50) {
+               do formApple();
+               let counter = 0;
+            }
+         }
+         if (key = 81)  { let exit = true; }     // q key
+         if (key = 131) { let direction = 1; }   // up arrow
+         if (key = 133) { let direction = 2; }   // down arrow
+         if (key = 130) { let direction = 3; }   // left arrow
+         if (key = 132) { let direction = 4; }   // right arrow
+
+         // waits for the key to be released
+         while (~(key = 0)) {
+            let key = Keyboard.keyPressed();
+            do moveSnake();
+            let check = checkApple();
+            if (~(check = -1)) {
+               do consumeApple(check);
+            }
+            let counter = counter + 1;
+            if (counter = 50) {
+               do formApple();
+               let counter = 0;
+            }
+         }
+     } // while
+     return;
+   }
+}
+
+
+

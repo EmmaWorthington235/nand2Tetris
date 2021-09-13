@@ -1,0 +1,28 @@
+class Counter {
+    field int counter
+    
+    constructor CountdownTimer new(int start) {
+        let counter = start;
+        return this;
+    }
+
+    method void CountDown(){
+        while (counter > 0){
+            do Screen.clearScreen();
+            do Output.moveCursor(10, 10);
+			do Output.printInt(counter);
+            let counter = counter - 1;
+            do Sys.wait(500)
+        }
+            do Screen.clearScreen();
+			do Output.moveCursor(10, 10);
+			do Output.printString("Time's up!");
+            return;
+    }
+
+  method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+}

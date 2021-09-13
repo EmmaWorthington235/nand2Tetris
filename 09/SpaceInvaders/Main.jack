@@ -1,0 +1,103 @@
+class Main {
+	field int temp;
+
+	function void main () {
+
+	//User Paddle is an index in pixels from the left
+	//Alien is an array of numbers. Each number is the number of aliens that are left in that row
+
+		//each round wait 1000
+
+		//check user input
+			//update the index of shooter
+			//if moved, update the screen
+		//check bullet
+			//find the index of shooter
+			//if already in play, don't change
+			//if not in play, then start the bullet
+			//if collide, then return the index
+
+		//update the aliens if alien is Hit
+
+
+
+		//INSTATIATING ALL VARIABLES
+			//Main, Shooter (the tank), Bullet (from the tank), and ScreenPlayer (aliens)
+		var ScreenPlayer2 s;	//ScreenPlayer has the aliens static, and the animations for ScreenPlayer2 are a bit jenky
+		var Shooter user;
+		var char uInput;
+		var int round;
+		var int bRow;	//bullet index
+		var int bCol;
+		var int divisor;
+		var Bullet b;
+
+		var int score;
+
+		var int temp;
+
+
+		let s = ScreenPlayer2.new();		
+		let round = 0;
+		let uInput = 0;
+		let user = Shooter.new();
+		let divisor = 0;
+		let temp = 0;
+		let b = Bullet.new();
+		let score = 0;
+
+
+		while (round = 0) {	//while true loop until game is over (all 18 aliens are hit)
+			//Checking user Input
+			let uInput = Keyboard.keyPressed();
+			do s.print();
+
+			//Checking if bullet has hit one of the aliens
+				//math to check if bullet is in column of an alien (if even possible to hit alien)
+			let bRow = user.move(uInput, b);
+			let bRow = Math.divide(bRow,2);
+			let bCol = b.getCol();
+			let temp = Math.divide(bCol,6);
+			let divisor = temp;	//storing the potential column that will be hit
+			let temp = Math.multiply(temp, 6);
+			let temp = bCol - temp;
+
+			if (temp = 0 & bRow > 0 & s.possibleHit()) {
+				let divisor = s.getRow(divisor);
+				if (divisor = bRow) {
+					do s.alienHit(Math.divide(bCol,6), bRow - 1);
+					do user.destroyed();
+					let score = score + 1;
+					do s.setRow(Math.divide(bCol,6));
+					do b.reset();
+				}
+			}
+
+			//If all hit, go to end game screen
+			if (score = 18) {
+				do Screen.clearScreen();
+				do Output.moveCursor(10,26);
+				do Output.printString("Game Over");
+				do Output.moveCursor(14,27);
+				do Output.printString("You Won!");
+				let round = 1;
+
+			}
+			// Otherwise, keep the score in the bottom right
+			else {
+			do Output.moveCursor(22,55);
+			do Output.printString("Score: ");
+			do Output.printInt(score);
+			}
+
+			do Sys.wait(125);
+		}
+
+		do s.dispose();
+		do user.dispose();		
+
+		return;
+
+	}
+
+}

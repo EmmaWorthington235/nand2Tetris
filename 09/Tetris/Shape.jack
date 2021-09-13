@@ -1,0 +1,209 @@
+class Shape {
+
+   /** Constructs a new Square Game. */
+   field int x, y, pos; //location of middle block top right corner, and position
+   //0=nub up, 1=nub right, 2= nub down, 3=nub left
+
+   constructor Shape new() {
+      // Creates the shape
+      let x = 257;
+      let y = 17;
+      let pos = 0; //nub facing up
+      do Screen.drawRectangle(257, 17, 271, 32); //middle
+      do Screen.drawRectangle(241, 17, 255, 32); //left
+      do Screen.drawRectangle(273, 17, 287, 32); //right
+      do Screen.drawRectangle(257, 0, 271, 15); //top
+      return this;
+   }
+
+    /** Erases or draws shape. */
+   method void eraseOrDraw(boolean color) {
+      do Screen.setColor(color);
+      do Screen.drawRectangle(x, y, x + 14, y + 15); //center block
+      if (pos=0){ 
+         do Screen.drawRectangle(x+16, y, x + 30, y + 15); // right block
+         do Screen.drawRectangle(x-16, y, x -2, y + 15); // left block
+         do Screen.drawRectangle(x, y-17, x + 14, y -2); // top block
+      }
+      if (pos=1){  
+         do Screen.drawRectangle(x+16, y, x + 30, y + 15); // right block
+         do Screen.drawRectangle(x, y-17, x + 14, y -2); // top block
+         do Screen.drawRectangle(x, y+17, x + 14, y+32); // bottom block
+      }
+      if (pos=2){ //FIX
+         do Screen.drawRectangle(x+16, y, x + 30, y + 15); // right block
+         do Screen.drawRectangle(x-16, y, x -2, y + 15); // left block
+         do Screen.drawRectangle(x, y+17, x + 14, y+32); // bottom block
+      }
+      if (pos=3){ 
+         do Screen.drawRectangle(x-16, y, x -2, y + 15); // left block
+         do Screen.drawRectangle(x, y+17, x + 14, y+32); // bottom block
+         do Screen.drawRectangle(x, y-17, x + 14, y -2); // top block
+      }
+      return;
+   }
+
+    /** Move shape 2 columns to the right. */
+   method void moveRight(){
+         do eraseOrDraw(false);
+         let x = x+16;
+         let y = y;
+         do eraseOrDraw(true);
+      return;
+   }
+
+    /** Move shape 2 columns to the left. */
+   method void moveLeft(){
+         do eraseOrDraw(false);
+         let x = x-16;
+         let y = y;
+         do eraseOrDraw(true);
+      return;
+   }
+
+    /** Move shape 2 rows down. */
+   method void moveDown(){
+      do eraseOrDraw(false);
+      let x = x;
+      let y = y+1;
+      do eraseOrDraw(true);
+      return;
+   }
+
+    /** Drops shape to the ground. */
+   method void drop(){
+      while (ground()){
+         do moveDown();
+         do Sys.wait(3);
+      }
+      return;
+   }
+
+
+   /** Turns shape counterclockwise. */
+   method void turn(){
+      do Screen.setColor(false);
+      if (pos=0){ 
+         do Screen.drawRectangle(x-16, y, x -2, y + 15); //erase left block
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y+17, x + 14, y+32);//draw bottom block
+      }
+      if (pos=1){ 
+         do Screen.drawRectangle(x, y-17, x + 14, y -2); //erase top block
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x-16, y, x -2, y + 15); // left block
+      }
+      if (pos=2){ 
+         do Screen.drawRectangle(x+16, y, x + 30, y + 15); //erase right block
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y-17, x + 14, y -2); //draw top block
+      }
+      if (pos=3){ 
+         do Screen.drawRectangle(x, y+17, x + 14, y+32); //erase bottom block
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x+16, y, x + 30, y + 15);//draw right block
+      }
+
+      let pos=pos+1;
+      if (pos=4){
+         let pos=0;
+      }
+      
+      return;
+   }
+   
+
+   /** Checks if shape is touching ground/another shape. FIXXXX*/
+   method boolean ground(){
+      if (pos=0){
+         if (~(Memory.peek(16384+(32*(y+17))+((x-16)/16))=0)){ //check left
+            return false;
+         }
+         if (~(Memory.peek(16384+(32*(y+17))+((x+16)/16))=0)){ //check right
+            return false;
+         }
+         if (~(Memory.peek(16384+(32*(y+17))+((x)/16))=0)){ //check middle
+            return false;
+         }
+         
+      }
+      if (pos=1){
+         if (~(Memory.peek(16384+(32*(y+17))+((x+16)/16))=0)){ //check right
+            return false;
+         }
+         if (~(Memory.peek(16384+(32*(y+34))+(x/16))=0)){ //check bottom
+            return false;
+         }
+      }
+      if (pos=2){
+         if (~(Memory.peek(16384+(32*(y+34))+(x/16))=0)){ //check bottom
+            return false;
+         }
+         if (~(Memory.peek(16384+(32*(y+17))+((x+16)/16))=0)){ //check right
+            return false;
+         }
+         if (~(Memory.peek(16384+(32*(y+17))+((x-16)/16))=0)){ //check left
+            return false;
+         }
+      }
+      if (pos=3){
+         if (~(Memory.peek(16384+(32*(y+34))+(x/16))=0)){ //check bottom
+            return false;
+         }
+         if (~(Memory.peek(16384+(32*(y+17))+((x-16)/16))=0)){ //check left
+            return false;
+         }
+      }
+      
+      return true;
+   }
+   /** Return true if shape is touching roof. FIXXXX*/
+   method boolean roof(){
+      if (pos=0){
+         if (y<20&~(y=10)){
+            return true;
+         }
+      }
+      return false;
+   }
+
+   /** Return true if shape is not touching the right wall.*/
+   method boolean Rwall(){
+     
+      if (((pos=0) | (pos=1) | (pos=2)) & (x<289)){
+         return true;
+      }
+      if ((pos=3) & (x<305)){
+         return true;
+      }
+      return false;
+   }
+    /** Return true if shape is not touching the left wall.*/
+   method boolean Lwall(){
+      if (((pos=0) | (pos=3) | (pos=2)) & (x>199)){
+         return true;
+      }
+      if ((pos=1) & (x>183)){
+         return true;
+      }
+      return false;
+   }
+   /** Checks if the row is full.*/
+   method void full(){
+      return;
+   }
+   /** Clears the specefied row.*/
+   method void clearRow(){
+      return;
+   }
+   
+
+   /** Disposes this game. */
+   method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+   }
+}
+
+
+

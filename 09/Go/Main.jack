@@ -1,0 +1,35 @@
+ 
+class Main {
+
+
+function void main() {
+
+  var startGO game;
+
+  do Output.printString("Welcome to Cowboy Showdown! Click Enter to start the duel."); 
+  do Output.println();
+  do Output.printString("Player 1 will use the 'A' key and Player 2 will use 'L'."); 
+  do Output.println();
+  do Output.printString("Whoever clicks their key first after the signal is given wins."); 
+  do Output.println();
+  do Output.printString("If a player false starts they will be disqualified and lose.");
+  do Output.println();
+  do Output.println();
+
+  do Output.printString("The game has begun!");
+  let game = startGO.new();
+  do game.countdown();
+  do game.dispose();
+  
+  return;
+
+
+}
+
+
+
+
+
+
+
+}

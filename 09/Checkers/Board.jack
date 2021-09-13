@@ -1,0 +1,65 @@
+class Board {
+	
+	field Array arr;
+
+	//-1 means nothing, 0 means dotted, 1 means plain
+
+	//creating an array will help with deciding legal moves and seeing if the game is over
+
+	constructor Board new() {
+		var int i,j;
+		var Array col;
+		let arr = Array.new(8);
+		let i=0;
+		let j=0;
+		while (i<8){
+			let arr[i]= Array.new(8);
+			while (j<8){
+				let col=arr[i];
+				let col[j]=-1;
+				let j=j+1;
+			}
+			let i=i+1;
+		}
+
+		let i=0;
+		while(i<8) {
+			do set(i,0,1);
+			do set(i,2,1);
+			do set(i,6,0);
+			let i=i+2;
+		}
+
+		let i=1;
+		while(i<8) {
+			do set(i,1,1);
+			do set(i,5,0);
+			do set(i,7,0);
+			let i=i+2;
+		}
+		return this;
+
+	}
+
+
+	method void dispose() {
+		do arr.dipose();
+		return;
+	}
+
+	method void set(int r, int c, int value) {
+		var Array col;
+		let col = arr[c];
+		let col[r]= value;
+		return;
+	}
+
+	method int get(int r, int c){
+		var Array col;
+		var int value;
+		let col= arr[c];
+		let value=col[r];
+		return value;
+	}
+
+}

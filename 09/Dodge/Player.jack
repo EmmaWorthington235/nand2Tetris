@@ -1,0 +1,90 @@
+
+class Player {
+    
+	field int loc;
+	
+	constructor Player new() {
+		let loc = 250;
+		do Screen.setColor(true);
+		do Player.load(loc);
+		return this;
+	}
+	
+
+	function void load (int loc) { 
+		// draws the player in whatever color Screen is already set to and 
+		// at the given location. loc is the column number of the pixel 
+		// in the top row of the ship at the far left.
+		do Screen.drawRectangle(loc, 220, (loc+14), 224); // top line of ship
+		do Screen.drawRectangle((loc-5), 225, (loc-1), 229);
+		do Screen.drawRectangle((loc+15), 225, (loc+19), 229);
+		do Screen.drawRectangle((loc-10), 230, (loc-6), 234);
+		do Screen.drawRectangle((loc+20), 230, (loc+24), 234);
+		do Screen.drawRectangle((loc-20), 235, (loc+34), 239);
+		do Screen.drawRectangle((loc-15), 240, (loc+29), 244);
+		do Screen.drawRectangle((loc-5), 245, (loc+19), 249);
+		return;
+	}
+
+	method void moveLeft() {
+		// moves player left 20 pixels
+		if (loc > 37) {
+			do Screen.setColor(false);
+			do Player.load(loc);
+			let loc = loc - 20;
+			do Screen.setColor(true);
+			do Player.load(loc); 
+		}
+
+		return;
+	}
+
+	method void moveRight () {
+		// moves player right 20 pixels
+		if (loc < 460) {
+			do Screen.setColor(false);
+			do Player.load(loc);
+			let loc = loc + 20;
+			do Screen.setColor(true);
+			do Player.load(loc);
+		}
+
+		return;
+	}
+
+	method int getLoc() {
+		return loc;
+	}
+
+	method void dead () { 
+		// makes the player flash a few times when they die
+		do Screen.setColor(false);
+		do Player.load(loc);
+		do Sys.wait(300);
+		do Screen.setColor(true);
+		do Player.load(loc);
+		do Sys.wait(300);
+		do Screen.setColor(false);
+		do Player.load(loc);
+		do Sys.wait(300);
+		do Screen.setColor(true);
+		do Player.load(loc);
+		do Sys.wait(300);
+		do Screen.setColor(false);
+		do Player.load(loc);
+		do Sys.wait(300);
+		do Screen.setColor(true);
+		do Player.load(loc);
+		do Sys.wait(300);
+		return;
+		
+	}
+
+	method void dispose () {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	
+
+}	

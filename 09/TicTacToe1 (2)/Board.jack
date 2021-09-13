@@ -1,0 +1,278 @@
+
+class Board {
+	field Array2 row1;
+	field Array2 row2;
+	field Array2 row3;
+	field String winner;
+
+	constructor Board new () {
+		let row1 = Array2.new(3);
+		let row2 = Array2.new(3);
+		let row3 = Array2.new(3);
+		let winner = "";
+		return this;
+		
+	}
+
+	method void move (int r, int c, String xOrO) {
+		do Output.printInt(xOrO.charAt(0));
+		if (r = 0) {
+			if (c = 0) {
+				if (xOrO.charAt(0)=120){
+					do row1.set(1, 0);
+				}
+				if (xOrO.charAt(0)=111){
+					do row1.set(2, 0);
+				}
+			}
+			if (c = 1) {
+				if (xOrO.charAt(0)=120){
+					do row1.set(1, 1);
+				}
+				if (xOrO.charAt(0)=111){
+					do row1.set(2, 1);
+				}
+			}
+			if (c = 2) {
+				if (xOrO.charAt(0)=120){
+					do row1.set(1, 2);
+				}
+				if (xOrO.charAt(0)=111){
+					do row1.set(2, 2);
+				}
+			}
+		}
+		if (r = 1) {
+			if (c = 0) {
+				if (xOrO.charAt(0)=120){
+					do row2.set(1, 0);
+				}
+				if (xOrO.charAt(0)=111){
+					do row2.set(2, 0);
+				}
+			}
+			if (c = 1) {
+				if (xOrO.charAt(0)=120){
+					do row2.set(1, 1);
+				}
+				if (xOrO.charAt(0)=111){
+					do row2.set(2, 1);
+				}
+			}
+			if (c = 2) {
+				if (xOrO.charAt(0)=120){
+					do row2.set(1, 2);
+				}
+				if (xOrO.charAt(0)=111){
+					do row2.set(2, 2);
+				}
+			}
+		}
+		if (r = 2) {
+			if (c = 0) {
+				if (xOrO.charAt(0)=120){
+					do row3.set(1, 0);
+				}
+				if (xOrO.charAt(0)=111){
+					do row3.set(2, 0);
+				}
+			}
+			if (c = 1) {
+				if (xOrO.charAt(0)=120){
+					do row3.set(1, 1);
+				}
+				if (xOrO.charAt(0)=111){
+					do row3.set(2, 1);
+				}
+			}
+			if (c = 2) {
+				if (xOrO.charAt(0)=120){
+					do row3.set(1, 2);
+				}
+				if (xOrO.charAt(0)=111){
+					do row3.set(2, 2);
+				}
+			}
+		}
+
+		return;
+	}
+
+	method void writeScreen () {
+		var int counter;
+		do Screen.clearScreen();
+		do Output.moveCursor(0,0);
+
+		//vertical
+		do Screen.drawLine(241, 83, 241, 173);
+		do Screen.drawLine(271, 83, 271, 173);
+
+		//horizontal		
+		do Screen.drawLine(211, 143, 301, 143);
+		do Screen.drawLine(211, 113, 301, 113);
+		let counter = 0;
+		while (counter <3) {
+			if (row1.get(0)=1){
+				do writeX(221,93,231,103);
+			}
+			if (row1.get(0)=2){
+				do Screen.drawCircle(226,98,5);
+			}
+			if (row1.get(1)=1){
+				do writeX(251,93,261,103);
+			}
+			if (row1.get(1)=2){
+				do Screen.drawCircle(256,98,5);
+			}
+			if (row1.get(2)=1){
+				do writeX(281,93,291,103);
+			}
+			if (row1.get(2)=2){
+				do Screen.drawCircle(286,98,5);
+			}
+			let counter = counter + 1;
+		}
+		let counter = 0;
+		while (counter <3) {
+			if (row2.get(0)=1){
+				do writeX(221,123,231,133);
+			}
+			if (row2.get(0)=2){
+				do Screen.drawCircle(226,128,5);
+			}
+			if (row2.get(1)=1){
+				do writeX(251,123,261,133);
+			}
+			if (row2.get(1)=2){
+				do Screen.drawCircle(256,128,5);
+			}
+			if (row2.get(2)=1){
+				do writeX(281,123,291,133);
+			}
+			if (row2.get(2)=2){
+				do Screen.drawCircle(286,128,5);
+			}
+			let counter = counter + 1;
+		}
+		let counter = 0;
+		while (counter <3) {
+			if (row3.get(0)=1){
+				do writeX(221,153,231,163);
+			}
+			if (row3.get(0)=2){
+				do Screen.drawCircle(226,158,5);
+			}
+			if (row3.get(1)=1){
+				do writeX(251,153,261,163);
+			}
+			if (row3.get(1)=2){
+				do Screen.drawCircle(256,158,5);
+			}
+			if (row3.get(2)=1){
+				do writeX(281,153,291,163);
+			}
+			if (row3.get(2)=2){
+				do Screen.drawCircle(286,158,5);
+			}
+			let counter = counter + 1;
+		}
+		return;
+	}
+
+	method void writeX (int coord1, int coord2, int coord3, int coord4){
+		do Screen.drawLine(coord1, coord2, coord3, coord4);
+		do Screen.drawLine(coord3, coord2, coord1, coord4);
+		return;
+	}
+	
+	method boolean isValidMove(int row, int col){
+		//check that row and col are within 0 and 2
+		if ((row > 2)|(row < 0)){
+			do writeScreen();
+			do Output.printString("Please enter an integer between 0 and 2.");
+			do Output.println();
+			return false;
+		}
+		if ((col > 2)|(col < 0)){
+			do writeScreen();
+			do Output.printString("Please enter an integer between 0 and 2.");
+			do Output.println();
+			return false;
+		}
+		
+		//check that the spot it is going at is 0 aka nothing is there
+		if (row = 0) {
+			if (~(row1.get(col)=0)){
+				do writeScreen();
+				do Output.printString("Please chose an open space.");
+				do Output.println();
+				return false;
+			}
+		}
+		if (row = 1) {
+			if (~(row2.get(col)=0)){
+				do writeScreen();
+				do Output.printString("Please chose an open space.");
+				do Output.println();
+				return false;
+			}
+		}
+		if (row = 2) {
+			if (~(row3.get(col)=0)){
+				do writeScreen();
+				do Output.printString("Please chose an open space.");
+				do Output.println();
+				return false;
+			}
+		}
+
+		return true;
+	}
+		
+	method boolean isGameOver (String lastMovePlayer) {
+		let winner = lastMovePlayer;
+		//check for horizontal win
+		if ((row1.get(0) = row1.get(1)) & (row1.get(1) = row1.get(2)) & ~(row1.get(1)=0)){
+			return true;
+		}
+		if ((row2.get(0) = row2.get(1)) & (row2.get(1) = row2.get(2)) & ~(row2.get(1)=0)){
+			return true;
+		}
+		if ((row3.get(0) = row3.get(1)) & (row3.get(1) = row3.get(2)) & ~(row3.get(1)=0)){
+			return true;
+		}
+
+		//check for vertical win
+		if ((row1.get(0) = row2.get(0)) & (row2.get(0) = row3.get(0)) & ~(row1.get(0)=0)){
+			return true;
+		}
+		if ((row1.get(1) = row2.get(1)) & (row2.get(1) = row3.get(1)) & ~(row1.get(1)=0)){
+			return true;
+		}
+		if ((row1.get(2) = row2.get(2)) & (row2.get(2) = row3.get(2)) & ~(row1.get(2)=0)){
+			return true;
+		}
+
+		//check for both diagonal wins
+		if ((row1.get(0) = row2.get(1)) & (row2.get(1) = row3.get(2)) & ~(row1.get(0)=0)){
+			return true;
+		}
+		if ((row1.get(2) = row2.get(1)) & (row2.get(1) = row3.get(0)) & ~(row1.get(2)=0)){
+			return true;
+		}
+
+		return false;
+	}
+
+	method String getWinner(){
+		return winner;
+	}
+
+
+	method void dispose (){
+		do Memory.deAlloc(this);
+		return;
+
+	}
+
+}

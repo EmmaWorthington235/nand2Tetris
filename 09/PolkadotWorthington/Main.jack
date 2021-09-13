@@ -1,0 +1,58 @@
+class Main {
+
+    function void main() { 
+        //sorry i couldnt get it to test and didnt want to waste time
+        //wouldve switched to second page if i had time
+        
+        var int r;
+        var int c;
+        var int d; // direction //1 left 2 up 3 right 4 down
+        var int x;
+        var int y;
+
+        //do Output.printString("R size in pizels: ");
+        let x = 255;
+        let y = 127;
+
+        let r = Keyboard.readInt("R size in pizels: ");
+		do Screen.clearScreen();
+        do Screen.drawCircle(x, y, r);
+        
+         while (c != 81){
+             let c = Keyboard.readChar();
+             let c = c - 129;
+
+             if (c = 1){ //left
+                do Screen.clearScreen();
+                if ((x - r) > 0){
+                    let x = x - r;
+                }
+                do Screen.drawCircle(x, y, r);
+             }
+             if (c = 2){ //up
+                do Screen.clearScreen();
+                if ((y + r) < 511){
+                    let y = y + r;
+                }
+                do Screen.drawCircle(x, y, r);
+             }
+             if (c = 3){ //right
+                do Screen.clearScreen();
+                if ((x + r) < 255){
+                    let x = x + r;
+                }
+                do Screen.drawCircle(x, y, r);
+             }
+             if (c = 4){ //down
+                do Screen.clearScreen();
+                if ((y - r) > 0){
+                    let y = y - r;
+                }
+                do Screen.drawCircle(x, y, r);
+             }
+         } 
+
+         return;
+    } 
+
+}

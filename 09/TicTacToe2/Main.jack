@@ -1,0 +1,14 @@
+class Main {
+function void main(){
+	//creates game and plays it
+	var Tictactoe v;
+	do Output.printString("Welcome to two player tictactoe!");
+	do Sys.wait(1000);
+	do Screen.clearScreen();
+	do Output.moveCursor(0,0);
+	let v=Tictactoe.new();
+	do v.play();
+	do v.dispose();
+	return;
+}
+}

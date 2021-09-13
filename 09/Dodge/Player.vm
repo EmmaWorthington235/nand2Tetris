@@ -1,0 +1,229 @@
+function Player.new 0
+push constant 1
+call Memory.alloc 1
+pop pointer 0
+push constant 250
+pop this 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+push pointer 0
+return
+function Player.load 0
+push argument 0
+push constant 220
+push argument 0
+push constant 14
+add
+push constant 224
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 5
+sub
+push constant 225
+push argument 0
+push constant 1
+sub
+push constant 229
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 15
+add
+push constant 225
+push argument 0
+push constant 19
+add
+push constant 229
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 10
+sub
+push constant 230
+push argument 0
+push constant 6
+sub
+push constant 234
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 20
+add
+push constant 230
+push argument 0
+push constant 24
+add
+push constant 234
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 20
+sub
+push constant 235
+push argument 0
+push constant 34
+add
+push constant 239
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 15
+sub
+push constant 240
+push argument 0
+push constant 29
+add
+push constant 244
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 5
+sub
+push constant 245
+push argument 0
+push constant 19
+add
+push constant 249
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Player.moveLeft 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 37
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+push this 0
+push constant 20
+sub
+pop this 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Player.moveRight 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 460
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+push this 0
+push constant 20
+add
+pop this 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Player.getLoc 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Player.dead 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+push constant 300
+call Sys.wait 1
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+push constant 300
+call Sys.wait 1
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+push constant 300
+call Sys.wait 1
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+push constant 300
+call Sys.wait 1
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+push constant 300
+call Sys.wait 1
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+call Player.load 1
+pop temp 0
+push constant 300
+call Sys.wait 1
+pop temp 0
+push constant 0
+return
+function Player.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

@@ -1,0 +1,53 @@
+
+class Timer {
+    	
+	field int score; // player's score
+	field int counter; 
+	constructor Timer new() {
+		let score = 0;
+		let counter = 0;
+		do update();
+		return this;
+	}
+
+	method void update () {
+		// keeps the time and score for the game. prints score to screen
+		if (counter=0) {
+			do Screen.setColor(true);
+			do Output.moveCursor(1, 55);
+			do Output.printString("SCORE:");
+			do Output.moveCursor(2, 55);
+			do Output.printInt(score);
+			let score = score + 10;
+		}
+		do Sys.wait(50);
+		let counter = counter + 1;
+		if (counter = 15) {
+			let counter = 0;
+		}
+		return;
+	}
+
+	method void finish () { 
+		// ends the game. prints the final score
+		do Screen.setColor(true);
+		do Screen.clearScreen();
+		do Output.moveCursor(11, 24);
+		do Output.printString("FINAL SCORE: ");
+		do Output.printInt(score);
+		
+		return;
+	}
+
+	method int getScore () { 
+		return score;
+	}
+
+	method void dispose () {
+		do Memory.deAlloc(this);
+		do Memory.deAlloc(score);
+		return;
+	}
+	
+
+}	

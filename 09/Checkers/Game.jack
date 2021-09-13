@@ -1,0 +1,78 @@
+class Game {
+	
+	field Board board;
+	field int red; //num of red checkers. (not in use yet)
+	field int black; //num of black checkers (not in use yet)
+	field boolean whoseMove; //false if dotted move, true if plain move
+	field int oldR;
+	field int oldC;
+	field int newR;
+	field int newC;
+
+
+	constructor Game new() {
+		let board = Board.new();
+		let red = 12;
+		let black = 12;
+		let whoseMove = false;
+		return this;
+	}
+
+	method void getMove() {
+		var String input;
+		var char c;
+		var String temp;
+
+		do Output.moveCursor(0,0);
+		let oldR = Keyboard.readInt("checker row:")-1;
+		let oldC = Keyboard.readInt("checker col:")-1;
+		let newR = Keyboard.readInt("target row:")-1;
+		let newC = Keyboard.readInt("target col:")-1;
+
+
+
+		return;
+	}
+
+	method void makeMove() {
+		var int newChecker;
+		if (~whoseMove){ //dotted if false
+			let newChecker=0;
+		}
+		if (whoseMove){ //plain if true
+			let newChecker=1; 
+		}
+
+		do board.set(oldR,oldC,-1);
+		do board.set(newR,newC,newChecker);
+
+		//erases the old circle
+		do Screen.setColor(true);
+		do Screen.drawRectangle(128+Math.multiply(28,oldC),16+Math.multiply(28,oldR),156+Math.multiply(28,oldC),44+Math.multiply(28,oldR));
+
+		//creates the circles
+		do Screen.setColor(false);
+		do Screen.drawCircle(128+Math.multiply(28,newC)+14,16+Math.multiply(28,newR)+14,10);
+		
+		if (~whoseMove){ //puts the dots?
+			do Screen.setColor(true);
+			do Screen.drawCircle(128+Math.multiply(28,newC)+14,16+Math.multiply(28,newR)+14, 2);
+		}
+
+		let whoseMove=~whoseMove;
+		return;
+	}
+
+	method boolean isLegalMove(){
+		return true;
+	}
+
+	method boolean isGameOver(){
+		return true;
+	}
+
+	method void dispose(){
+		return;
+	}
+
+}

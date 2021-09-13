@@ -1,0 +1,270 @@
+function Main.main 9
+push constant 11
+push constant 13
+call Output.moveCursor 2
+pop temp 0
+push constant 37
+call String.new 1
+push constant 80
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+push constant 69
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 65
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 65
+call String.appendChar 2
+push constant 78
+call String.appendChar 2
+push constant 68
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 68
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 84
+call String.appendChar 2
+push constant 79
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 77
+call String.appendChar 2
+push constant 79
+call String.appendChar 2
+push constant 86
+call String.appendChar 2
+push constant 69
+call String.appendChar 2
+push constant 46
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 68
+call String.appendChar 2
+push constant 79
+call String.appendChar 2
+push constant 78
+call String.appendChar 2
+push constant 39
+call String.appendChar 2
+push constant 84
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 71
+call String.appendChar 2
+push constant 69
+call String.appendChar 2
+push constant 84
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 72
+call String.appendChar 2
+push constant 73
+call String.appendChar 2
+push constant 84
+call String.appendChar 2
+push constant 33
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 3000
+call Sys.wait 1
+pop temp 0
+call Screen.clearScreen 0
+pop temp 0
+push constant 0
+not
+pop local 0
+call Timer.new 0
+pop local 1
+call Player.new 0
+pop local 2
+call Asteroid.new 0
+pop local 4
+push constant 1
+pop local 5
+push constant 1
+pop local 6
+push constant 0
+pop local 7
+push constant 50
+call Array.new 1
+pop local 8
+label WHILE_EXP0
+push local 0
+not
+if-goto WHILE_END0
+call Keyboard.keyPressed 0
+pop local 3
+push local 3
+push constant 65
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 2
+call Player.moveLeft 1
+pop temp 0
+push local 5
+push constant 1
+add
+pop local 5
+label IF_FALSE0
+push local 3
+push constant 68
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 2
+call Player.moveRight 1
+pop temp 0
+push local 6
+push constant 1
+add
+pop local 6
+label IF_FALSE1
+push local 7
+push local 8
+add
+push local 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 7
+push constant 1
+add
+pop local 7
+push local 7
+push constant 50
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+pop local 7
+label IF_FALSE2
+push local 5
+push local 6
+sub
+call Math.abs 1
+push constant 3
+gt
+push local 8
+call Main.sum 1
+push constant 200
+gt
+and
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push local 5
+push local 6
+sub
+call Math.abs 1
+push local 8
+call Main.sum 1
+call Math.multiply 2
+call Random.setSeed 1
+pop temp 0
+label IF_FALSE3
+push constant 1000
+call Random.randRange 1
+push local 1
+call Timer.getScore 1
+add
+push constant 999
+gt
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push local 4
+push local 1
+call Timer.getScore 1
+call Asteroid.newAst 2
+pop temp 0
+label IF_FALSE4
+push local 4
+call Asteroid.move 1
+pop temp 0
+push local 1
+call Timer.update 1
+pop temp 0
+push local 4
+push local 2
+call Player.getLoc 1
+call Asteroid.hit 2
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 0
+pop local 0
+label IF_FALSE5
+goto WHILE_EXP0
+label WHILE_END0
+push local 2
+call Player.dead 1
+pop temp 0
+push local 1
+call Timer.finish 1
+pop temp 0
+push local 4
+call Asteroid.dispose 1
+pop temp 0
+push local 2
+call Player.dispose 1
+pop temp 0
+call Sys.halt 0
+pop temp 0
+push constant 0
+return
+function Main.sum 2
+push constant 0
+pop local 0
+push constant 0
+pop local 1
+label WHILE_EXP0
+push local 0
+push constant 50
+lt
+not
+if-goto WHILE_END0
+push local 1
+push local 0
+push argument 0
+add
+pop pointer 1
+push that 0
+add
+pop local 1
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push local 1
+return
+function Main.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

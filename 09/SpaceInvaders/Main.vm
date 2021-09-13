@@ -1,0 +1,205 @@
+function Main.main 10
+call ScreenPlayer2.new 0
+pop local 0
+push constant 0
+pop local 3
+push constant 0
+pop local 2
+call Shooter.new 0
+pop local 1
+push constant 0
+pop local 6
+push constant 0
+pop local 9
+call Bullet.new 0
+pop local 7
+push constant 0
+pop local 8
+label WHILE_EXP0
+push local 3
+push constant 0
+eq
+not
+if-goto WHILE_END0
+call Keyboard.keyPressed 0
+pop local 2
+push local 0
+call ScreenPlayer2.print 1
+pop temp 0
+push local 1
+push local 2
+push local 7
+call Shooter.move 3
+pop local 4
+push local 4
+push constant 2
+call Math.divide 2
+pop local 4
+push local 7
+call Bullet.getCol 1
+pop local 5
+push local 5
+push constant 6
+call Math.divide 2
+pop local 9
+push local 9
+pop local 6
+push local 9
+push constant 6
+call Math.multiply 2
+pop local 9
+push local 5
+push local 9
+sub
+pop local 9
+push local 9
+push constant 0
+eq
+push local 4
+and
+push constant 0
+gt
+push local 0
+call ScreenPlayer2.possibleHit 1
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push local 6
+call ScreenPlayer2.getRow 2
+pop local 6
+push local 6
+push local 4
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push local 5
+push constant 6
+call Math.divide 2
+push local 4
+push constant 1
+sub
+call ScreenPlayer2.alienHit 3
+pop temp 0
+push local 1
+call Shooter.destroyed 1
+pop temp 0
+push local 8
+push constant 1
+add
+pop local 8
+push local 0
+push local 5
+push constant 6
+call Math.divide 2
+call ScreenPlayer2.setRow 2
+pop temp 0
+push local 7
+call Bullet.reset 1
+pop temp 0
+label IF_FALSE1
+label IF_FALSE0
+push local 8
+push constant 18
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+call Screen.clearScreen 0
+pop temp 0
+push constant 10
+push constant 26
+call Output.moveCursor 2
+pop temp 0
+push constant 9
+call String.new 1
+push constant 71
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 109
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 79
+call String.appendChar 2
+push constant 118
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 14
+push constant 27
+call Output.moveCursor 2
+pop temp 0
+push constant 8
+call String.new 1
+push constant 89
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 117
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 87
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 33
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 1
+pop local 3
+goto IF_END2
+label IF_FALSE2
+push constant 22
+push constant 55
+call Output.moveCursor 2
+pop temp 0
+push constant 7
+call String.new 1
+push constant 83
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push local 8
+call Output.printInt 1
+pop temp 0
+label IF_END2
+push constant 125
+call Sys.wait 1
+pop temp 0
+goto WHILE_EXP0
+label WHILE_END0
+push local 0
+call ScreenPlayer2.dispose 1
+pop temp 0
+push local 1
+call Shooter.dispose 1
+pop temp 0
+push constant 0
+return

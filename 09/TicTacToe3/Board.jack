@@ -1,0 +1,293 @@
+class Board{
+
+field String playLet,compLet; 
+field Array2 arr;
+
+field String playNum,compNum; 
+
+constructor Board new(int s){
+
+
+if(s = 0){
+
+let compLet = "X";//computer letter
+let playLet = "O";
+let playNum = s;
+let compNum = 1;//computer number
+}
+else{//if I wanted to let the person choose their piece, but I had a lot of issues with this when I tried earlier...leave for future
+
+let compLet = "O";
+let playLet = "X";
+let playNum = 1;
+let compNum = 0;
+
+}
+
+let arr = Array2.new(9);
+
+do arr.set(-1,0);
+do arr.set(-2,1);
+do arr.set(-3,2);
+do arr.set(-4,3);
+do arr.set(-5,4);
+do arr.set(-6,5);
+do arr.set(-7,6);
+do arr.set(-8,7);
+do arr.set(-9,8);
+
+
+return this;
+}
+
+
+method void draw (){
+var int count, inner;
+let count = 0;
+
+
+do Screen.drawLine(60,85,380,85);
+do Screen.drawLine(60,170,380,170);
+
+
+do Screen.drawLine(180,50,180,220);
+do Screen.drawLine(260,50,260,220);
+
+
+while(count < 9){
+
+
+let inner = 0;
+	while(inner < 3){
+
+		if(arr.get(count) > -1){
+
+			if(arr.get(count) = 0){
+//draw O
+do Board.drawCircle(count, inner);
+
+				}else{
+//draw x
+
+do Board.drawRectangle(count, inner);
+				}           
+
+		}else{
+		do Board.drawNum(inner, count);	
+		}
+let inner = inner + 1;
+let count = count + 1;
+	}//end of mini while
+
+
+}//end of big while
+
+do Output.moveCursor(0,0);
+
+return;
+
+}
+
+
+method void dispose (){
+
+do arr.dispose();
+
+do Memory.deAlloc(this);
+return;
+
+}
+
+method int addPiece(int loc, int person){
+
+if(arr.get(loc) > -1){//means that there is a piece already here
+
+return 0;
+}
+else{
+
+if(person = 1){
+do arr.set(playNum, loc);
+
+}else{
+
+do arr.set(compNum, loc);
+
+}
+
+return -1;
+}
+}
+
+
+
+method int winGame(){
+
+var int game;
+let game = 0;
+
+
+if(arr.get(0) = arr.get(4)){//diag to botm right
+
+	if(arr.get(4) = arr.get(8)){
+	let game = -1;
+	}
+
+}
+
+
+if(arr.get(2) = arr.get(4)){//diagnol to bottom left
+
+	if(arr.get(4) = arr.get(6)){
+	let game = -1;
+	}
+
+}
+
+if(arr.get(0) = arr.get(1)){//top
+
+	if(arr.get(1) = arr.get(2)){
+	let game = -1;
+	}
+
+}
+
+if(arr.get(3) = arr.get(4)){//middle
+
+	if(arr.get(4) = arr.get(5)){
+	let game = -1;
+	}
+
+}
+
+if(arr.get(6) = arr.get(7)){//bottom
+
+	if(arr.get(7) = arr.get(8)){
+	let game = -1;
+	}
+
+}
+
+if(arr.get(0) = arr.get(3)){//left,down
+
+	if(arr.get(3) = arr.get(6)){
+	let game = -1;
+	}
+
+}
+
+if(arr.get(1) = arr.get(4)){//middle, down
+
+	if(arr.get(4) = arr.get(7)){
+	let game = -1;
+	}
+
+}
+
+if(arr.get(2) = arr.get(5)){//right, down
+
+	if(arr.get(5) = arr.get(8)){
+	let game = -1;
+	}
+
+}
+
+
+return game;
+
+}
+
+
+function void drawCircle (int count, int inner){
+var int x, y;//addresses for the location
+
+if(inner = 0){
+let x = 120;
+}else{
+if(inner = 1){
+let x = 210;
+}else{
+let x = 330;
+}
+}
+
+if(count < 3){
+let y = 70;
+}else{
+if(count < 6){
+let y = 130;
+}else{
+let y = 195;
+}
+}
+
+
+
+do Screen.drawCircle(x, y, 6);
+return;
+}
+
+function void drawRectangle (int count, int inner){
+var int xOne, xTwo, yOne, yTwo;//addresses for the locations of where to draw
+
+if(inner = 0){
+let xOne = 110;
+let xTwo = 120;
+}else{
+if(inner = 1){
+let xOne = 200;
+let xTwo = 210;
+}else{
+let xOne = 320;
+let xTwo = 330;
+}
+}
+
+if(count < 3){
+let yOne = 60;
+let yTwo = 70;
+}else{
+if(count < 6){
+let yOne = 120;
+let yTwo = 130;
+}else{
+let yOne = 190;
+let yTwo = 200;
+}
+}
+
+
+
+do Screen.drawRectangle(xOne,yOne,xTwo,yTwo);
+return;
+}
+
+
+function void drawNum(int inner, int count){
+var int x, y;
+
+if(count < 3){
+let x = 6;
+}else{
+	if(count < 6){
+	let x = 12;
+	}else{
+	let x = 16;
+}
+}
+
+if(inner = 0){
+let y = 15;
+}else{
+	if(inner = 1){
+	let y = 24;
+	}else{
+	let y = 36;
+}
+}
+do Output.moveCursor(x, y);
+do Output.printInt(count);
+return;
+}
+
+}

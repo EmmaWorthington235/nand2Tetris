@@ -1,0 +1,64 @@
+class Bullet {
+	field int column;	//left upper Index of Tank (shooter)
+	field int cIndex;	// in pixels
+	field int row;	//column 
+	field int rIndex;
+
+	constructor Bullet new () {
+		let column = 0;
+		let cIndex = 0;
+		let row = 0;
+		let rIndex = 0;
+		return this;
+	}
+
+	method void fired (int c) {	//called when bullet is initially fired
+
+		let column = c;
+		let cIndex = 3 + 12 + Math.multiply(16,column);
+		let row = 14; // bullet starts at 215 row, which is 7 + 16 * 13 (13 indexed 0 is 14)
+		let rIndex = 7 + Math.multiply(16 ,row - 1);
+		do Screen.setColor(true);
+		do Screen.drawRectangle (cIndex,rIndex-8, cIndex+1, rIndex);
+		return;
+	}
+
+	method int printBullet () {	//once the bullet is fired, the printBullet method just updates the bullet moving
+		do clear();
+		let row = row - 1;
+		if (row = 1) {
+			do reset();
+			return row;
+		}
+
+		let rIndex = 7 + Math.multiply (16,row - 1);
+
+		do Screen.setColor(true);
+		do Screen.drawRectangle (cIndex,rIndex - 8, cIndex+1, rIndex); 
+		return row;
+	}
+
+	method void clear() {	//clears where bullet was
+		do Screen.setColor(false);
+		do Screen.drawRectangle (cIndex,rIndex - 8, cIndex+1, rIndex);
+		return;
+	}
+
+	method void reset () {	//once bullet has hit alien or goes off screen, everything is reset
+		do clear();
+		let column = 0;
+		let cIndex = 0;
+		let row = 0;
+		let rIndex = 0;
+		return;
+	}
+
+	method int getCol () {
+		return column;
+	}
+	method void dispose () {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+}

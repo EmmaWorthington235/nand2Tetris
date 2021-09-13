@@ -20,3 +20,4 @@ pop argument 0      // counter--
 push argument 0
 if-goto LOOP_START  // If counter > 0, goto LOOP_START
 push local 0
+hi

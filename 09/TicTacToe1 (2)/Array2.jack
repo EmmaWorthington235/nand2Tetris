@@ -1,0 +1,80 @@
+/** Extends the Array class for ints */
+class Array2 {
+    
+	// field variables
+	field Array array;
+	field int size;
+
+/** Constructor receives an int and creates an array of that size */
+	constructor Array2 new(int sz) {
+		let size = sz;
+		let array = Array.new(size);
+		return this;
+	}
+
+/** Disposes of the array */
+	method void dispose() {
+		do array.dispose();
+		return;
+	}
+
+/** Receives a new integer and an index and sets that index equal to the given integer */
+	method void set(int newI, int index) {
+		let array[index] = newI;
+		return;
+	}
+
+
+	method int get(int index) {
+		return array[index];
+	}
+
+/** Prints the array2 object */
+	method void print() {
+		var int i;
+		do Output.printString("[ ");
+		let i =0;
+		while(i<size) {
+			do Output.printInt(array[i]);
+			do Output.printChar(32);
+			let i = i+1;
+		}
+		do Output.printString("]");
+		do Output.println();
+		return;
+	}	
+
+/** Check whether the array2 object contains the given target int */
+	method int contains(int target) {
+		var int i;
+		let i = 0;
+		while (i<size) {
+			if(array[i] = target) { return i; }
+			let i = i + 1;
+		}
+		return -1;
+	}
+
+/** Sorts the array2 object into ascending order using bubblesort */
+	method void sort() {
+		var boolean done;
+		var int i, stop, temp;
+		let done = false;
+		let stop = size -1;
+		while (~done) {
+			let done = true;
+			let i = 1;
+			while (i<stop) {
+				if(array[i] < array[i-1]) {
+					let temp = array[i-1];
+					let array[i-1] = array[i];
+					let array[i] = temp;
+					let done = false;
+				}
+			let i = i+1;
+			}
+			let stop = stop-1;
+		}
+		return;
+	}
+}

@@ -1,0 +1,12 @@
+/** Initializes a new Tetris game and starts running it. */
+class Main {
+    function void main() {
+        var Tetris game;
+        let game = Tetris.new();
+        do Output.printString("Nanako's Tetris :)");
+        do Output.println();
+        do game.play();
+        do game.dispose();
+        return;
+    }
+}

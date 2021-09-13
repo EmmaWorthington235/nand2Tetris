@@ -1,0 +1,82 @@
+class Shooter {
+	field int LUIndex;	//left upper Index of Tank (shooter) This is the reference point for the tank
+	//LUIndex can be between 0 and 31
+	field boolean bullet;
+
+	constructor Shooter new () {
+		let LUIndex = 16;
+		let bullet = false;
+		return this;
+	}
+
+
+	method int move (int keyP, Bullet b) {	//returns the index of bullet if in bounds
+		var int bRow;
+		let bRow = -1;
+		if (keyP = 130) {
+			if (LUIndex > 0) {
+				let LUIndex = LUIndex - 1;
+				do clear();
+				do printTank();
+			}
+		}
+
+		//Making sure tank doesn't go out of bounds
+		if (keyP = 132) {
+			if (LUIndex < 30) {
+				let LUIndex = LUIndex + 1;
+				do clear();
+				do printTank();
+			}
+		}
+		if (keyP = 131) {	//if up arrow is pressed
+			if (~bullet) {
+				let bullet = true;
+				do b.fired(LUIndex); //3 and 12 are indexes to center the bullet for the tank
+				return bRow;
+			}
+		}
+
+		if (bullet) {
+			let bRow = b.printBullet();
+			if (bRow = 0) {
+				let bullet = false;
+			}
+		}
+		return bRow;
+	}
+
+	method void printTank () {	//prints tank based on the upper left pixel
+		var int temp;
+		var int LUPixel;
+		let LUPixel = 3 + Math.multiply(16,LUIndex);
+		let temp = 220;
+		do Screen.setColor(true);
+
+		do Screen.drawRectangle(LUPixel + 11, temp, LUPixel + 13, temp + 1);
+		let temp = temp + 2;
+		do Screen.drawRectangle(LUPixel + 9, temp, LUPixel + 15, temp + 4);
+		let temp = temp + 5;
+		do Screen.drawRectangle(LUPixel + 4, temp, LUPixel + 20, temp + 1);
+		let temp = temp + 2;
+		do Screen.drawRectangle(LUPixel, temp, LUPixel + 24, temp + 6);
+
+		return;
+	}
+
+	method void clear () {	//clear tank so new tank can be printed when moving
+		do Screen.setColor(false);
+		do Screen.drawRectangle(0,220,511,235);
+		return;
+	}
+
+	method void destroyed () {
+		let bullet = false;
+		return;
+	}
+	method void dispose () {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+}

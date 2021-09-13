@@ -1,0 +1,33 @@
+class Player {
+    
+        field int n;
+
+        constructor Player new(){
+            //constructor
+            return this;
+        }
+    
+        method int getPlayerMove(int n){
+            //returns an int 1-9 representing a move on the board
+            var int move;
+            do Output.moveCursor(n, 0);
+            let move = Keyboard.readLine("Enter your move. It must be a single number 1-9 that has not yet been played.");
+            return move; 
+        }
+
+        method int getCPUMove(){
+            //returns an int 1-9 representing a move on the board
+            var Random r;
+            var int move;
+		    let r = Random.new();
+            let move = r.randRange(8);
+            let move = move + 1;
+            do r.dispose();
+            return move;
+        }
+
+         method void dispose(){
+            do Memory.deAlloc(this);
+            return;
+        }
+}
